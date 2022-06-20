@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
@@ -11,6 +12,8 @@ import '../model/toast_model.dart';
 
 class AddTaskBloc extends Cubit<AddTaskState> {
   final AddTaskUseCase addTaskUseCase;
+  late ListesOfHouseEntity liste;
+
   AddTaskBloc(this.addTaskUseCase) : super(AddTaskEmpty());
 
   TextEditingController titleController = TextEditingController();
@@ -21,7 +24,9 @@ class AddTaskBloc extends Cubit<AddTaskState> {
       description: descriptionController.text,
       isDone: false,
       views: 0,
-      dateTime: DateTime.now());
+      dateTime: DateTime.now(),
+      quantite: 0,
+      list: liste.id);
 
   bool get validateInputs =>
       titleController.text.isEmpty || descriptionController.text.isEmpty;

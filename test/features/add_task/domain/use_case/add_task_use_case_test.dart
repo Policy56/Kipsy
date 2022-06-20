@@ -16,7 +16,9 @@ void main() {
 
   setUp(() {
     repository = MockAddTaskRepository();
-    useCase = AddTaskUseCase(repository!);
+    useCase = AddTaskUseCase(
+      repository!,
+    );
   });
 
   final tTask = TaskOfListEntity(

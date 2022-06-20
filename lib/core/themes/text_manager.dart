@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TextManager {
-  static TextTheme get textStyle => const TextTheme(
+  static TextTheme get textStyle => //GoogleFonts.comfortaaTextTheme();
+
+      const TextTheme(
         headline1: TextStyle(
           fontSize: 19,
           height: 1,

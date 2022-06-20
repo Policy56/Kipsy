@@ -37,7 +37,9 @@ class ShowHousesView extends StatelessWidget {
           builder: (BuildContext context, ShowHouseState state) {
             if (state is HomeLoaded &&
                 houseBloc.subPage[houseBloc.currentSubPage]
-                    .listFloatingActionButton.isNotEmpty) {
+                    .listFloatingActionButtonFab
+                    .isNotEmptyList(context) &&
+                houseBloc.currentPage == 0) {
               return SpeedDial(
                   icon: Icons.add,
                   activeIcon: Icons.add,
@@ -49,9 +51,8 @@ class ShowHousesView extends StatelessWidget {
                   animationAngle: pi,
                   elevation: 5.0,
                   children: houseBloc.subPage[houseBloc.currentSubPage]
-                      .listFloatingActionButton
-                  /**/
-                  );
+                      .listFloatingActionButtonFab
+                      .getListButton(context));
             } else {
               return Container();
             }

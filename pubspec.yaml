@@ -66,6 +66,7 @@ dependencies:
   cloud_firestore: ^3.1.17
   firebase_core: ^1.17.1
   flutter_speed_dial: ^6.0.0
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:

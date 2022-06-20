@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class TaskOfListEntity extends Equatable {
-  final String? titre, description, id, list;
+  final String? titre, description, list;
+  String? id;
   DateTime? dateTime;
   int? quantite;
   int views;

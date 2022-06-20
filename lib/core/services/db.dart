@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:kipsy/features/add_task/data/model/house_model.dart';
 import 'package:kipsy/features/add_task/data/model/listes_of_house_model.dart';
 import 'package:kipsy/features/add_task/data/model/task_model.dart';
@@ -8,9 +7,19 @@ import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 
 class DbService {
-  Future<int?> createItem(Equatable task) async {
+  Future<String?> createTask(TaskOfListEntity task) async {
     // return db.insert('tasks', task.toJson());
-    return 1;
+    DocumentReference<Map<String, dynamic>> ref =
+        await FirebaseFirestore.instance.collection("items").add({
+      "titre": task.titre,
+      "list": task.list,
+      "description": task.description,
+      "quantite": task.quantite,
+      "done": task.isDone,
+      "views": task.views,
+      "dateTime": task.dateTime,
+    });
+    return ref.id;
   }
 
   Future<int> updateTask(TaskOfListEntity task) async {

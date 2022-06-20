@@ -21,20 +21,20 @@ void main() {
 
   test('should call add task when call method', () async {
     //arrange
-    when(() => databaseService!.createItem(tTaskOfListModel))
-        .thenAnswer((_) async => 0);
+    when(() => databaseService!.createTask(tTaskOfListModel))
+        .thenAnswer((_) async => "0");
     //act
     await _localSource!.addTask(tTaskOfListModel);
     //assert
-    verify(() => databaseService!.createItem(tTaskOfListModel));
+    verify(() => databaseService!.createTask(tTaskOfListModel));
     verifyNoMoreInteractions(databaseService);
   });
 
   test('should return [TaskOfListModel] when stored success in database',
       () async {
     //arrange
-    when(() => databaseService!.createItem(tTaskOfListModel))
-        .thenAnswer((_) async => 1);
+    when(() => databaseService!.createTask(tTaskOfListModel))
+        .thenAnswer((_) async => "1");
     //act
     final result = await _localSource!.addTask(tTaskOfListModel);
     //assert
@@ -43,7 +43,7 @@ void main() {
 
   test('should return [CacheException] when throw error', () async {
     //arrange
-    when(() => databaseService!.createItem(tTaskOfListModel))
+    when(() => databaseService!.createTask(tTaskOfListModel))
         .thenThrow(Exception());
     //act
     final result = _localSource!.addTask(tTaskOfListModel);

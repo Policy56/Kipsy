@@ -13,7 +13,8 @@ class AddTasksLocalDataSourceImpl implements AddTasksLocalDataSource {
   @override
   Future<TaskOfListModel> addTask(TaskOfListModel task) async {
     try {
-      await _dbService.createItem(task);
+      String? taskId = await _dbService.createTask(task);
+      task.id = taskId;
       return task;
     } catch (e) {
       throw CacheException();

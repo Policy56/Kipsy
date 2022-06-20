@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
+import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_bloc.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_state.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.dart';
@@ -12,23 +13,30 @@ import '../model/toast_model.dart';
 import '../widgets/swipe_line.dart';
 
 class AddTask extends StatelessWidget {
-  const AddTask({Key? key}) : super(key: key);
+  ListesOfHouseEntity liste;
+
+  AddTask({Key? key, required this.liste}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => AddTaskBloc(sl()),
-      child: const AddTaskView(),
+      child: AddTaskView(
+        liste: liste,
+      ),
     );
   }
 }
 
 class AddTaskView extends StatelessWidget {
-  const AddTaskView({Key? key}) : super(key: key);
+  ListesOfHouseEntity liste;
+  AddTaskView({Key? key, required this.liste}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final addTaskBloc = context.read<AddTaskBloc>();
+
+    addTaskBloc.liste = liste;
     return WillPopScope(
       onWillPop: () async {
         addTaskBloc.goBack(context);

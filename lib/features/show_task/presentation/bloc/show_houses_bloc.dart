@@ -27,6 +27,8 @@ import 'package:kipsy/features/show_task/presentation/pages/house_list_task_view
 import 'package:kipsy/features/show_task/presentation/pages/task_detail.dart';
 import 'package:kipsy/features/show_task/presentation/pages/tasks_of_lists_view.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/home_fab.dart';
+import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/list_fab.dart';
+import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/tasks_fac.dart';
 import '../../../add_task/presentation/pages/add_task_view.dart';
 
 class ShowHousesBloc extends Cubit<ShowHouseState> {
@@ -66,20 +68,15 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
 
   List<SubTabModel> subPage = [
     SubTabModel(
-        id: 0,
-        imgName: 'home',
-        view: const AllHouses(),
-        listFloatingActionButton: HomeFAB().getListButton()),
-    const SubTabModel(
+        id: 0, view: const AllHouses(), listFloatingActionButtonFab: HomeFAB()),
+    SubTabModel(
         id: 1,
-        imgName: 'home',
-        view: AllListesView(),
-        listFloatingActionButton: []),
-    const SubTabModel(
+        view: const AllListesView(),
+        listFloatingActionButtonFab: ListFAB()),
+    SubTabModel(
         id: 2,
-        imgName: 'home',
-        view: TasksOfListesView(),
-        listFloatingActionButton: []),
+        view: const TasksOfListesView(),
+        listFloatingActionButtonFab: TaskFAB()),
   ];
 
   List<HouseEntity> houses = [];
@@ -90,7 +87,7 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
 
   List<HouseEntity>? mostVisitedHouses = [];
   HouseEntity? selectedHouse;
-  ListesOfHouseEntity? selectedListes;
+  ListesOfHouseEntity? selectedListe;
 
   void changeActiveTab(int tabId) {
     currentPage = tabId;
@@ -107,14 +104,16 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
     updateTask(task);
   }
 
-  void goToAddHouse(BuildContext context) async {
+  /*void goToAddHouse(BuildContext context) async {
     //Navigate
-    MaterialPageRoute materialPageRoute =
-        MaterialPageRoute(builder: (_) => const AddTask());
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(
+        builder: (_) => AddTask(
+              liste: selectedListe!,
+            ));
     await Navigator.of(context).push(materialPageRoute);
     //Update
     getAllHouses();
-  }
+  }*/
 
   void goToListsOfHouse(BuildContext context, HouseEntity house) async {
     //house.views = (house.views ?? 0) + 1;
@@ -132,7 +131,7 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
   void goToTasksOfList(BuildContext context, ListesOfHouseEntity list) async {
     emit(HomeLoading());
     currentSubPage = 2;
-    selectedListes = list;
+    selectedListe = list;
     //Update
     await getTaskOfListes(list);
     emit(HomeLoaded());
@@ -145,6 +144,40 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
         await navigateToTaskDetail(context, task) as TaskOfListEntity;
     //Update
     update(result);
+  }
+
+  void goToAddGroup(BuildContext context) async {
+    //Navigate
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (_) => AddTask(liste: selectedListe!));
+    await Navigator.of(context).push(materialPageRoute);
+    //Update
+    getAllHouses();
+    //getAllTasks();
+  }
+
+  void goToAddList(BuildContext context) async {
+    //Navigate
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(
+        builder: (_) => AddTask(
+              liste: selectedListe!,
+            ));
+    await Navigator.of(context).push(materialPageRoute);
+    //Update
+    getListesOfHouses(selectedHouse!);
+    //getAllTasks();
+  }
+
+  void goToAddTask(BuildContext context) async {
+    //Navigate
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(
+        builder: (_) => AddTask(
+              liste: selectedListe!,
+            ));
+    await Navigator.of(context).push(materialPageRoute);
+    //Update
+    getTaskOfListes(selectedListe!);
+    //getAllTasks();
   }
 
   Future navigateToTaskDetail(

@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/interface_fab.dart';
 
 class SubTabModel {
   final int? id;
-  final String? imgName;
   final Widget? view;
-  final List<SpeedDialChild> listFloatingActionButton;
+  final InterfaceFab listFloatingActionButtonFab;
   const SubTabModel(
-      {this.id,
-      this.imgName,
-      this.view,
-      required this.listFloatingActionButton});
+      {this.id, this.view, required this.listFloatingActionButtonFab});
 }

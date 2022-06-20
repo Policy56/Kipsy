@@ -19,7 +19,9 @@ class AddTaskRepositoryImpl implements AddTaskRepository {
           description: task.description,
           dateTime: task.dateTime,
           views: task.views,
-          isDone: task.isDone);
+          isDone: task.isDone,
+          list: task.list,
+          quantite: task.quantite);
       final taskOfListModel = await localSource!.addTask(taskParam);
       return Right(taskOfListModel);
     } on CacheException {
@@ -28,4 +30,4 @@ class AddTaskRepositoryImpl implements AddTaskRepository {
   }
 }
 
-const String errorAddTask = 'Error When add new Task';
+const String errorAddTask = 'Error when add new Task';

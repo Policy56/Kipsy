@@ -32,8 +32,6 @@ class MyApp extends StatelessWidget {
             create: (_) => ShowHousesBloc(
                 sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl())
               ..getAllHouses()),
-        /* BlocProvider(
-            create: (_) => ShowTaskBloc(sl(), sl(), sl())..getAllTasks()),*/
       ],
       child: DynamicTheme(
           builder: (BuildContext conetxt, ThemeData theme) => MaterialApp(
