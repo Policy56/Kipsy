@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kipsy/core/error/failure.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/show_task/data/data_source/show_tasks_local_data_source.dart';
 import 'package:kipsy/features/show_task/domain/repositiory/show_tasks_repository.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
@@ -8,7 +9,6 @@ import 'package:kipsy/core/use_case/use_case.dart';
 import 'package:kipsy/features/add_task/data/model/task_model.dart';
 import 'package:kipsy/features/add_task/domain/use_case/add_task_use_case.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_state.dart';
-import '../model/toast_model.dart';
 
 class AddTaskBloc extends Cubit<AddTaskState> {
   final AddTaskUseCase addTaskUseCase;
@@ -33,7 +33,7 @@ class AddTaskBloc extends Cubit<AddTaskState> {
 
   void saveTask(BuildContext context) async {
     if (validateInputs) {
-      showToast(context, ToastModel.addTaskWarning);
+      showToast(context, TaskToastModel.addTaskWarning);
       return;
     }
 
@@ -48,7 +48,7 @@ class AddTaskBloc extends Cubit<AddTaskState> {
     descriptionController.clear();
   }
 
-  void showToast(BuildContext context, ToastModel toastModel) {
+  void showToast(BuildContext context, TaskToastModel toastModel) {
     MotionToast(
       icon: toastModel.icon!,
       title: Text(toastModel.title ?? '', style: testStyle),

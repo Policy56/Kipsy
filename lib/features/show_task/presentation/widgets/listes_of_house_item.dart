@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 
 class ListesOfHouseItem extends StatelessWidget {

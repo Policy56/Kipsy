@@ -1,6 +1,6 @@
 import 'package:kipsy/core/services/db.dart';
-import 'package:kipsy/features/add_task/domain/entity/house.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_house/domain/entity/house.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 
 abstract class ShowListesOfHouseLocalDataSource {
   Future<List<ListesOfHouseEntity>?> getListOfHouse(HouseEntity house);
@@ -24,7 +24,7 @@ class ShowListesOfHouseLocalDataSourceImpl
   @override
   Future<ListesOfHouseEntity> deleteListOfHouse(
       ListesOfHouseEntity list) async {
-    await _dbService.deleteItem(list.id);
+    await _dbService.deleteItem(list.id!);
     return list;
   }
 

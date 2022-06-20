@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 
-class ToastModel {
+class HouseToastModel {
   final String? title, description;
   final Color? color;
   final IconData? icon;
-  const ToastModel({
+  const HouseToastModel({
     this.color,
     this.title,
     this.description,
     this.icon,
   });
 
-  static ToastModel get addTaskWarning => const ToastModel(
+  static HouseToastModel get addHouseWarning => const HouseToastModel(
       title: 'Warning',
       description: 'You should fill all inputs',
       icon: Icons.info,
       color: ColorManager.blue);
 
-  static ToastModel get addTaskSuccess => const ToastModel(
+  static HouseToastModel get addHouseSuccess => const HouseToastModel(
       title: 'Success',
-      description: 'Add Task Successfully',
+      description: 'Add House Successfully',
       icon: Icons.check,
       color: ColorManager.lightGreen);
 
-  static ToastModel get addTaskError => const ToastModel(
+  static HouseToastModel get addHouseError => const HouseToastModel(
       title: 'Error',
       description: 'Try again later..',
       icon: Icons.error,

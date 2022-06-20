@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/dependency_container.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_bloc.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_state.dart';
+import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
-
-import '../../../../dependency_container.dart';
-import '../../../welcome/presentation/widgets/custom_button.dart';
-import '../model/toast_model.dart';
-import '../widgets/swipe_line.dart';
+import 'package:kipsy/features/add_task/presentation/widgets/swipe_line.dart';
+import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
 
 class AddTask extends StatelessWidget {
   ListesOfHouseEntity liste;
@@ -56,7 +55,7 @@ class AddTaskView extends StatelessWidget {
             children: [
               const SwipeLine(),
               CustomTextField(
-                title: 'Title',
+                title: 'New task',
                 controller: addTaskBloc.titleController,
                 textInputAction: TextInputAction.next,
                 maxLines: 1,
@@ -65,6 +64,7 @@ class AddTaskView extends StatelessWidget {
                 title: 'Description',
                 maxLines: 12,
                 controller: addTaskBloc.descriptionController,
+                //textInputAction: TextInputAction.done,
               ),
               const SizedBox(
                 height: 40,
@@ -88,9 +88,9 @@ class AddBtn extends StatelessWidget {
         listener: (BuildContext context, AddTaskState state) {
       if (state is AddTaskLoad) {
         bloc.clearControllers();
-        bloc.showToast(context, ToastModel.addTaskSuccess);
+        bloc.showToast(context, TaskToastModel.addTaskSuccess);
       } else if (state is AddTaskError) {
-        bloc.showToast(context, ToastModel.addTaskError);
+        bloc.showToast(context, TaskToastModel.addTaskError);
       }
     }, builder: (BuildContext context, AddTaskState state) {
       if (state is AddTaskLoading) {

@@ -1,6 +1,6 @@
 import 'package:kipsy/core/services/db.dart';
 import 'package:kipsy/features/add_task/data/model/task_model.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 
 abstract class ShowTasksOfListesLocalDataSource {

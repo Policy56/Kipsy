@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
+import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_states.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/mode_switcher.dart';
-import '../../../../core/themes/theme_manager.dart';
 
 class ShowTasksView extends StatelessWidget {
   const ShowTasksView({Key? key}) : super(key: key);

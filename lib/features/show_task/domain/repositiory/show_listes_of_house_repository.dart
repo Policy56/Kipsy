@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:kipsy/core/error/failure.dart';
-import 'package:kipsy/features/add_task/domain/entity/house.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_house/domain/entity/house.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 
 abstract class ShowListesOfHouseRepository {
   Future<Either<Failure, List<ListesOfHouseEntity>>> getListOfHouse(

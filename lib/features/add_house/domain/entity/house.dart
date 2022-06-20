@@ -1,15 +1,16 @@
 import 'package:equatable/equatable.dart';
 
 class HouseEntity extends Equatable {
-  final String id;
+  String? id;
   final String? titre;
-  final String? shareCode;
+  final String? share_code;
+  DateTime? dateTime;
 
-  const HouseEntity({this.titre, this.shareCode, required this.id});
+  HouseEntity({this.titre, this.share_code, required this.id, this.dateTime});
 
   @override
   List<Object?> get props => [
         titre,
-        shareCode,
+        share_code,
       ];
 }

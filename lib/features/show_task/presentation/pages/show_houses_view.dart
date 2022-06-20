@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
+import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_states.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/mode_switcher.dart';
-import '../../../../core/themes/theme_manager.dart';
 
 class ShowHousesView extends StatelessWidget {
   const ShowHousesView({Key? key}) : super(key: key);

@@ -3,9 +3,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/use_case/use_case.dart';
-import 'package:kipsy/features/add_task/domain/entity/house.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_house/domain/entity/house.dart';
+import 'package:kipsy/features/add_house/presentation/pages/add_house_view.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_list/presentation/pages/add_list_view.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
+import 'package:kipsy/features/add_task/presentation/pages/add_task_view.dart';
 import 'package:kipsy/features/show_task/domain/use_case/all_houses_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/delete_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/delete_listes_of_house_use_case.dart';
@@ -29,7 +32,6 @@ import 'package:kipsy/features/show_task/presentation/pages/tasks_of_lists_view.
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/home_fab.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/list_fab.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/tasks_fac.dart';
-import '../../../add_task/presentation/pages/add_task_view.dart';
 
 class ShowHousesBloc extends Cubit<ShowHouseState> {
   final AllHousesUseCase _allHousesUseCase;
@@ -149,7 +151,7 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
   void goToAddGroup(BuildContext context) async {
     //Navigate
     MaterialPageRoute materialPageRoute =
-        MaterialPageRoute(builder: (_) => AddTask(liste: selectedListe!));
+        MaterialPageRoute(builder: (_) => const AddHouse());
     await Navigator.of(context).push(materialPageRoute);
     //Update
     getAllHouses();
@@ -159,8 +161,8 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
   void goToAddList(BuildContext context) async {
     //Navigate
     MaterialPageRoute materialPageRoute = MaterialPageRoute(
-        builder: (_) => AddTask(
-              liste: selectedListe!,
+        builder: (_) => AddList(
+              houseEntity: selectedHouse!,
             ));
     await Navigator.of(context).push(materialPageRoute);
     //Update
@@ -227,7 +229,9 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
     mostVisitedHouses!.sort((b, a) => a.views.compareTo(b.views));*/
 
     //Done Tasks
-    doneTasks = tasksOfList.where((task) => task.isDone != 0).toList();
+    doneTasks = tasksOfList
+        .where((task) => (task.isDone != null && task.isDone != false))
+        .toList();
   }
 
   Future<void> updateTask(TaskOfListEntity task) async =>

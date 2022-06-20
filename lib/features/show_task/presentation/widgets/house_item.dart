@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
-import 'package:kipsy/features/add_task/domain/entity/house.dart';
+import 'package:kipsy/features/add_house/domain/entity/house.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 
 class HouseItem extends StatelessWidget {
@@ -101,7 +101,7 @@ class HouseItem extends StatelessWidget {
                           fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                     Text(
-                      house.shareCode ?? "",
+                      house.share_code ?? "",
                       style: const TextStyle(color: Colors.grey),
                     ),
                     /* Text(

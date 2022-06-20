@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/themes/colors_manager.dart';
+import 'package:kipsy/core/themes/colors_manager.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField(
@@ -15,7 +15,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText, title;
   final TextInputType? keyboardType;
-  final int? maxLength,maxLines;
+  final int? maxLength, maxLines;
   final TextInputAction? textInputAction;
 
   @override
@@ -31,9 +31,7 @@ class CustomTextField extends StatelessWidget {
               Text(
                 title ?? '',
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      color: ColorManager.blue,
-                  fontWeight: FontWeight.w700
-                    ),
+                    color: ColorManager.blue, fontWeight: FontWeight.w700),
               ),
               const Expanded(
                 child: Divider(
@@ -53,7 +51,8 @@ class CustomTextField extends StatelessWidget {
             maxLines: maxLines,
             textInputAction: textInputAction,
             decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 border: inputBorder,
                 enabledBorder: inputBorder,
                 focusedBorder: inputBorder,

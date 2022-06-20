@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
-
-import '../../../../core/themes/theme_manager.dart';
+import 'package:kipsy/core/themes/theme_manager.dart';
 
 class PageHeader extends StatelessWidget {
   const PageHeader({Key? key, this.child}) : super(key: key);

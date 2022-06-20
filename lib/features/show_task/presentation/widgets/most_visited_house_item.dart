@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
-import 'package:kipsy/features/add_task/domain/entity/house.dart';
+import 'package:kipsy/features/add_house/domain/entity/house.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 
 class MostVisitedHouseItem extends StatelessWidget {
@@ -71,7 +71,7 @@ class MostVisitedHouseItem extends StatelessWidget {
                                     fontWeight: FontWeight.w700),
                               ),
                               Text(
-                                house.shareCode ?? '',
+                                house.share_code ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(

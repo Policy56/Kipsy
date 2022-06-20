@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kipsy/features/add_task/data/model/house_model.dart';
-import 'package:kipsy/features/add_task/data/model/listes_of_house_model.dart';
+import 'package:kipsy/features/add_house/data/model/house_model.dart';
+import 'package:kipsy/features/add_house/domain/entity/house.dart';
+import 'package:kipsy/features/add_list/data/model/listes_of_house_model.dart';
 import 'package:kipsy/features/add_task/data/model/task_model.dart';
-import 'package:kipsy/features/add_task/domain/entity/house.dart';
-import 'package:kipsy/features/add_task/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 
 class DbService {
   Future<String?> createTask(TaskOfListEntity task) async {
-    // return db.insert('tasks', task.toJson());
     DocumentReference<Map<String, dynamic>> ref =
         await FirebaseFirestore.instance.collection("items").add({
       "titre": task.titre,
@@ -18,6 +17,26 @@ class DbService {
       "done": task.isDone,
       "views": task.views,
       "dateTime": task.dateTime,
+    });
+    return ref.id;
+  }
+
+  Future<String?> createList(ListesOfHouseEntity list) async {
+    DocumentReference<Map<String, dynamic>> ref =
+        await FirebaseFirestore.instance.collection("list").add({
+      "titre": list.titre,
+      "house": list.house,
+      "dateTime": list.dateTime,
+    });
+    return ref.id;
+  }
+
+  Future<String?> createHouse(HouseEntity house) async {
+    DocumentReference<Map<String, dynamic>> ref =
+        await FirebaseFirestore.instance.collection("house").add({
+      "titre": house.titre,
+      "share_code": house.share_code,
+      "dateTime": house.dateTime,
     });
     return ref.id;
   }
@@ -54,7 +73,11 @@ class DbService {
         .map((doc) => HouseModel(
               id: doc.id,
               titre: doc.data()["titre"] ?? '',
-              shareCode: doc.data()["share_code"] ?? '',
+              share_code: doc.data()["share_code"] ?? '',
+              dateTime: doc.data()["dateTime"] != null &&
+                      doc.data()["dateTime"] is Timestamp
+                  ? (doc.data()["dateTime"] as Timestamp).toDate()
+                  : DateTime.now(),
             ))
         .toList();
 
@@ -70,10 +93,13 @@ class DbService {
 
     List<ListOfHouseModel> listOfHouse = listOfhouseGet.docs
         .map((doc) => ListOfHouseModel(
-              id: doc.id,
-              titre: doc.data()["titre"] ?? '',
-              house: house.id,
-            ))
+            id: doc.id,
+            titre: doc.data()["titre"] ?? '',
+            house: house.id,
+            dateTime: doc.data()["dateTime"] != null &&
+                    doc.data()["dateTime"] is Timestamp
+                ? (doc.data()["dateTime"] as Timestamp).toDate()
+                : DateTime.now()))
         .toList();
 
     return listOfHouse;
