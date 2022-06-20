@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
+import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
+import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
+import 'package:kipsy/features/show_task/presentation/bloc/show_houses_states.dart';
+
+import '../../../../core/themes/colors_manager.dart';
+import '../../../add_task/presentation/widgets/swipe_line.dart';
+
+class TaskDetailView extends StatelessWidget {
+  const TaskDetailView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TaskOfListEntity task =
+        ModalRoute.of(context)!.settings.arguments as TaskOfListEntity;
+    return WillPopScope(
+      onWillPop: () async {
+        goBack(context, task);
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: ColorManager.pink,
+          leading: IconButton(
+              onPressed: () => goBack(context, task),
+              icon: const Icon(Icons.arrow_back_ios)),
+        ),
+        backgroundColor: ColorManager.pink,
+        body: PageHeader(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+            children: [
+              const SwipeLine(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        task.titre ?? '',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 22),
+                      ),
+                    ),
+                    TaskStatus(task)
+                  ],
+                ),
+              ),
+              Text(
+                task.description ?? '',
+                textAlign: TextAlign.justify,
+                style: const TextStyle(color: Colors.grey),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Image.asset(
+                    'assets/images/view.png',
+                    color: Colors.grey[400],
+                    scale: 5,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    task.views.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void goBack(BuildContext context, TaskOfListEntity task) =>
+      Navigator.pop(context, task);
+}
+
+class TaskStatus extends StatelessWidget {
+  const TaskStatus(this.task, {Key? key}) : super(key: key);
+  final TaskOfListEntity task;
+
+  @override
+  Widget build(BuildContext context) {
+    final homeCubit = context.read<ShowHousesBloc>();
+    return BlocBuilder<ShowHousesBloc, ShowHouseState>(
+        builder: (BuildContext context, ShowHouseState state) => InkWell(
+              onTap: () {
+                homeCubit.setTaskDone(task);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    color: task.isDone == false
+                        ? ColorManager.blue.withAlpha(50)
+                        : ColorManager.lightGreen.withAlpha(50)),
+                child: Center(
+                  child: Text(
+                    task.isDone == false
+                        ? 'in progress'.toUpperCase()
+                        : 'done'.toUpperCase(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: task.isDone == false
+                            ? ColorManager.blue
+                            : ColorManager.lightGreen),
+                  ),
+                ),
+              ),
+            ));
+  }
+}
