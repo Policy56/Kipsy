@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/dependency_container.dart';
@@ -59,6 +60,38 @@ class AddTaskView extends StatelessWidget {
                 controller: addTaskBloc.titleController,
                 textInputAction: TextInputAction.next,
                 maxLines: 1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Spacer(),
+                  Expanded(
+                    child: CustomTextField(
+                      title: 'Quantite',
+                      controller: addTaskBloc.quantiteController,
+                      keyboardType: TextInputType.number,
+                      maxLength: 8,
+                      textInputAction: TextInputAction.next,
+                      inputFormatter: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                      ],
+                      maxLines: 1,
+                    ),
+                    flex: 3,
+                  ),
+                  const Spacer(),
+                  Expanded(
+                    child: CustomTextField(
+                      title: 'Unite',
+                      controller: addTaskBloc.uniteController,
+                      textInputAction: TextInputAction.next,
+                      maxLength: 8,
+                      maxLines: 1,
+                    ),
+                    flex: 3,
+                  ),
+                  const Spacer(),
+                ],
               ),
               CustomTextField(
                 title: 'Description',

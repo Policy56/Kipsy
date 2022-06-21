@@ -1,23 +1,26 @@
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 
 class TaskOfListModel extends TaskOfListEntity {
-  TaskOfListModel(
-      {required int views,
-      String? description,
-      String? list,
-      DateTime? dateTime,
-      bool? isDone,
-      String? id,
-      String? titre,
-      int? quantite})
-      : super(
+  TaskOfListModel({
+    required int views,
+    String? description,
+    String? list,
+    DateTime? dateTime,
+    bool? isDone,
+    String? id,
+    String? titre,
+    int? quantite,
+    String? unite,
+  }) : super(
             dateTime: dateTime,
             description: description,
             isDone: isDone,
             id: id,
             views: views,
             titre: titre,
-            list: list);
+            list: list,
+            quantite: quantite,
+            unite: unite);
 
   factory TaskOfListModel.fromJson(Map<String, dynamic> json) =>
       TaskOfListModel(

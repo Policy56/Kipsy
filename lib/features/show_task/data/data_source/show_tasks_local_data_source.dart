@@ -45,6 +45,9 @@ class ShowTaskLocalDataSourceImpl implements ShowTasksOfListesLocalDataSource {
         titre: task.titre,
         dateTime: task.dateTime,
         description: task.description,
+        list: task.list,
+        quantite: task.quantite,
+        unite: task.unite,
         views: task.views);
     await _dbService.updateTask(taskOfListModel);
     return task;

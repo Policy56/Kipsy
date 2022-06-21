@@ -17,6 +17,7 @@ class DbService {
       "done": task.isDone,
       "views": task.views,
       "dateTime": task.dateTime,
+      "unite": task.unite,
     });
     return ref.id;
   }
@@ -47,6 +48,7 @@ class DbService {
       "description": task.description,
       "titre": task.titre,
       "quantite": task.quantite,
+      "unite": task.unite,
       "views": task.views
     });
     return 1;
@@ -126,6 +128,7 @@ class DbService {
             list: doc.data()["list"] ?? '',
             description: doc.data()["description"] ?? "",
             quantite: doc.data()["quantite"] ?? 0,
+            unite: doc.data()["unite"] ?? "",
             isDone: doc.data()["done"] ?? false,
             views: doc.data()["views"] ?? 0,
             dateTime: doc.data()["dateTime"] != null &&
@@ -136,39 +139,6 @@ class DbService {
 
     return tasksOfList;
   }
-
-  /*<List<TaskOfListModel>> allItems() async {
-    QuerySnapshot<Map<String, dynamic>> itemsGet =
-        await FirebaseFirestore.instance.collection('items').get();
-    List listItems = itemsGet.docs.map((doc) => doc.data()).toList();
-
-    TaskOfListModel TaskOfListModel1 = TaskOfListModel(
-        dateTime: DateTime.now().toString(),
-        description: "desc",
-        id: 1.toString(),
-        isDone: false,
-        title: "titre",
-        views: 2);
-    /* HouseItem house =
-                    HouseItem(titre: ds["titre"], nbOccupants: 2, id: ds.id);*/
-    TaskOfListModel TaskOfListModel2 = TaskOfListModel(
-        dateTime: DateTime.now().toString(),
-        description: "desc",
-        id: 1.toString(),
-        isDone: false,
-        title: "titre",
-        views: 2);
-    TaskOfListModel TaskOfListModel3 = TaskOfListModel(
-        dateTime: DateTime.now().toString(),
-        description: "desc",
-        id: 1.toString(),
-        isDone: false,
-        title: "titre",
-        views: 2);
-    return [TaskOfListModel1, TaskOfListModel2, TaskOfListModel3];
-
-    //return db.query('tasks');
-  }*/
 
   /// ***
   /// DELETE TASKS

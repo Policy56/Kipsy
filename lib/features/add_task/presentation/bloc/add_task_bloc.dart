@@ -18,6 +18,8 @@ class AddTaskBloc extends Cubit<AddTaskState> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController quantiteController = TextEditingController();
+  TextEditingController uniteController = TextEditingController();
 
   TaskOfListModel get _task => TaskOfListModel(
       titre: titleController.text,
@@ -25,7 +27,8 @@ class AddTaskBloc extends Cubit<AddTaskState> {
       isDone: false,
       views: 0,
       dateTime: DateTime.now(),
-      quantite: 0,
+      quantite: int.parse(quantiteController.text),
+      unite: uniteController.text,
       list: liste.id);
 
   bool get validateInputs =>
@@ -46,6 +49,8 @@ class AddTaskBloc extends Cubit<AddTaskState> {
   void clearControllers() {
     titleController.clear();
     descriptionController.clear();
+    quantiteController.clear();
+    uniteController.clear();
   }
 
   void showToast(BuildContext context, TaskToastModel toastModel) {

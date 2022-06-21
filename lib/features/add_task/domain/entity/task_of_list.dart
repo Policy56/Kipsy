@@ -7,6 +7,7 @@ class TaskOfListEntity extends Equatable {
   int? quantite;
   int views;
   bool? isDone;
+  String? unite;
   TaskOfListEntity(
       {this.titre,
       this.description,
@@ -15,7 +16,8 @@ class TaskOfListEntity extends Equatable {
       required this.views,
       this.id,
       this.list,
-      this.quantite});
+      this.quantite,
+      this.unite});
 
   @override
   List<Object?> get props => [
@@ -24,5 +26,7 @@ class TaskOfListEntity extends Equatable {
         dateTime,
         isDone,
         views,
+        unite,
+        quantite,
       ];
 }

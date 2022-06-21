@@ -21,7 +21,8 @@ class AddTaskRepositoryImpl implements AddTaskRepository {
           views: task.views,
           isDone: task.isDone,
           list: task.list,
-          quantite: task.quantite);
+          quantite: task.quantite,
+          unite: task.unite);
       final taskOfListModel = await localSource!.addTask(taskParam);
       return Right(taskOfListModel);
     } on CacheException {

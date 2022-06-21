@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -10,13 +11,15 @@ class CustomTextField extends StatelessWidget {
       this.textInputAction,
       this.title,
       this.keyboardType,
-      this.maxLength})
+      this.maxLength,
+      this.inputFormatter})
       : super(key: key);
   final TextEditingController? controller;
   final String? hintText, title;
   final TextInputType? keyboardType;
   final int? maxLength, maxLines;
   final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? inputFormatter;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,7 @@ class CustomTextField extends StatelessWidget {
             maxLength: maxLength,
             maxLines: maxLines,
             textInputAction: textInputAction,
+            inputFormatters: inputFormatter,
             decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
