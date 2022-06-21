@@ -22,7 +22,7 @@ class ShowHouseLocalDataSourceImpl implements ShowHouseLocalDataSource {
 
   @override
   Future<HouseEntity> deleteHouse(HouseEntity house) async {
-    await _dbService.deleteItem(house.id!);
+    await _dbService.deleteHouse(house);
     return house;
   }
 

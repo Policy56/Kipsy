@@ -24,7 +24,7 @@ class ShowListesOfHouseLocalDataSourceImpl
   @override
   Future<ListesOfHouseEntity> deleteListOfHouse(
       ListesOfHouseEntity list) async {
-    await _dbService.deleteItem(list.id!);
+    await _dbService.deleteListOfHouse(list);
     return list;
   }
 

@@ -57,7 +57,7 @@ void main() {
   test('should return model when delete task from database successfully',
       () async {
     //arrange
-    when(() => _dbService!.deleteItem(any())).thenAnswer((_) async => 2);
+    when(() => _dbService!.deleteTasks(any())).thenAnswer((_) async => 2);
     //act
     final result = await localSource!.deleteTask(task);
     //assert

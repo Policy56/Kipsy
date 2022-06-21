@@ -170,8 +170,43 @@ class DbService {
     //return db.query('tasks');
   }*/
 
-  Future<int> deleteItem(String id) async {
-    // return db.delete('tasks', where: 'id = ?', whereArgs: [id]);
-    return 1;
+  /// ***
+  /// DELETE TASKS
+  ///
+  ///
+  ///
+  ///
+  ///
+
+  Future<void> deleteHouse(HouseEntity houseEntity) async {
+    await FirebaseFirestore.instance
+        .collection("house")
+        .doc(houseEntity.id)
+        .delete();
+
+    List<ListOfHouseModel>? listOfHouse = await allListOfHouse(houseEntity);
+    if (listOfHouse != null) {
+      for (ListOfHouseModel list in listOfHouse) {
+        await deleteListOfHouse(list);
+      }
+    }
+  }
+
+  Future<void> deleteListOfHouse(ListesOfHouseEntity list) async {
+    await FirebaseFirestore.instance.collection("list").doc(list.id).delete();
+
+    List<TaskOfListModel>? listOfTask = await allTasksOfList(list: list);
+    if (listOfTask != null) {
+      for (TaskOfListModel task in listOfTask) {
+        await deleteTasks(task);
+      }
+    }
+  }
+
+  Future<void> deleteTasks(TaskOfListEntity taskOfListEntity) async {
+    await FirebaseFirestore.instance
+        .collection("items")
+        .doc(taskOfListEntity.id)
+        .delete();
   }
 }

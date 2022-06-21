@@ -33,7 +33,7 @@ class ShowTaskLocalDataSourceImpl implements ShowTasksOfListesLocalDataSource {
 
   @override
   Future<TaskOfListEntity> deleteTask(TaskOfListEntity task) async {
-    await _dbService.deleteItem(task.id!.toString());
+    await _dbService.deleteTasks(task);
     return task;
   }
 
