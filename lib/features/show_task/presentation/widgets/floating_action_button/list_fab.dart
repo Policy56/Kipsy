@@ -19,15 +19,6 @@ class ListFAB extends InterfaceFab {
         backgroundColor: ColorManager.purple,
         onTap: () => homeBloc.goToAddList(context),
       ),
-      /*SpeedDialChild(
-        child: const Icon(
-          Icons.qr_code_scanner,
-          color: Colors.white,
-        ),
-        label: 'Add existing group',
-        backgroundColor: ColorManager.purple,
-        onTap: () {/* Do something */},
-      ),*/
     ];
   }
 }

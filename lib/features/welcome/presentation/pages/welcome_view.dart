@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/features/show_task/presentation/pages/show_houses_view.dart';
 import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -70,7 +71,12 @@ class WelcomeView extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'Get Started',
-                  onTap: () {
+                  onTap: () async {
+                    // Obtain shared preferences.
+                    final prefs = await SharedPreferences.getInstance();
+
+                    // Save an boolean value to 'repeat' key.
+                    await prefs.setBool('passWelcome', true);
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (_) => const ShowHousesView(),

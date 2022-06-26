@@ -27,7 +27,7 @@ class HomeFAB extends InterfaceFab {
         ),
         label: 'Add existing group',
         backgroundColor: ColorManager.purple,
-        onTap: () => homeBloc.goToAddGroup(context),
+        onTap: () => homeBloc.goToAddExistingGroup(context),
       ),
     ];
   }

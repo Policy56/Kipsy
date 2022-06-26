@@ -5,6 +5,7 @@ import 'package:kipsy/features/add_list/data/model/listes_of_house_model.dart';
 import 'package:kipsy/features/add_task/data/model/task_model.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DbService {
   Future<String?> createTask(TaskOfListEntity task) async {
@@ -69,20 +70,32 @@ class DbService {
   }
 
   Future<List<HouseModel>?> allHouse() async {
-    QuerySnapshot<Map<String, dynamic>> houseGet =
-        await FirebaseFirestore.instance.collection('house').get();
-    List<HouseModel> listHouse = houseGet.docs
-        .map((doc) => HouseModel(
-              id: doc.id,
-              titre: doc.data()["titre"] ?? '',
-              share_code: doc.data()["share_code"] ?? '',
-              dateTime: doc.data()["dateTime"] != null &&
-                      doc.data()["dateTime"] is Timestamp
-                  ? (doc.data()["dateTime"] as Timestamp).toDate()
-                  : DateTime.now(),
-            ))
-        .toList();
+    List<HouseModel>? listHouse;
+    final prefs = await SharedPreferences.getInstance();
+    //await prefs.setStringList('items', <String>['Earth', 'Moon', 'Sun']);
 
+    List<String>? savedItems = prefs.getStringList('house');
+
+    savedItems ??= [];
+
+    if (savedItems.isNotEmpty) {
+      QuerySnapshot<Map<String, dynamic>> houseGet = await FirebaseFirestore
+          .instance
+          .collection('house')
+          .where('share_code', whereIn: savedItems)
+          .get();
+      listHouse = houseGet.docs
+          .map((doc) => HouseModel(
+                id: doc.id,
+                titre: doc.data()["titre"] ?? '',
+                share_code: doc.data()["share_code"] ?? '',
+                dateTime: doc.data()["dateTime"] != null &&
+                        doc.data()["dateTime"] is Timestamp
+                    ? (doc.data()["dateTime"] as Timestamp).toDate()
+                    : DateTime.now(),
+              ))
+          .toList();
+    }
     return listHouse;
   }
 

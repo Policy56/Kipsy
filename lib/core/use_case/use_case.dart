@@ -23,6 +23,11 @@ class AddHouseParam {
   AddHouseParam(this.houseEntity);
 }
 
+class AddExistingHouseParam {
+  final String shareCode;
+  AddExistingHouseParam(this.shareCode);
+}
+
 class NoParams {}
 
 class HouseParams {

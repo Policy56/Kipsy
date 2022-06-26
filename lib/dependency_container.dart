@@ -1,8 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:kipsy/core/services/db.dart';
+import 'package:kipsy/features/add_house/data/data_source/add_existing_houses_local_data_source.dart';
 import 'package:kipsy/features/add_house/data/data_source/add_houses_local_data_source.dart';
+import 'package:kipsy/features/add_house/data/repository/add_existing_house_repository_impl.dart';
 import 'package:kipsy/features/add_house/data/repository/add_house_repository_impl.dart';
+import 'package:kipsy/features/add_house/domain/repositiory/add_existing_house_repository.dart';
 import 'package:kipsy/features/add_house/domain/repositiory/add_house_repository.dart';
+import 'package:kipsy/features/add_house/domain/use_case/add_existing_house_use_case.dart';
 import 'package:kipsy/features/add_house/domain/use_case/add_house_use_case.dart';
 import 'package:kipsy/features/add_list/data/data_source/add_tasks_local_data_source.dart';
 import 'package:kipsy/features/add_list/data/repository/add_list_repository_impl.dart';
@@ -41,6 +45,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddTaskUseCase(sl()));
   sl.registerLazySingleton(() => AddListUseCase(sl()));
   sl.registerLazySingleton(() => AddHouseUseCase(sl()));
+  sl.registerLazySingleton(() => AddExistingHouseUseCase(sl()));
 
   sl.registerLazySingleton(() => AllTasksUseCase(sl()));
   sl.registerLazySingleton(() => GetTaskOfListUseCase(sl()));
@@ -66,6 +71,9 @@ Future<void> init() async {
   sl.registerLazySingleton<AddHouseRepository>(
       () => AddHouseRepositoryImpl(localSource: sl()));
 
+  sl.registerLazySingleton<AddExistingHouseRepository>(
+      () => AddExistingHouseRepositoryImpl(localSource: sl()));
+
   sl.registerLazySingleton<ShowTasksOfListesRepository>(
       () => ShowTasksOfListesRepositoryImpl(sl()));
 
@@ -82,6 +90,8 @@ Future<void> init() async {
       () => AddListsLocalDataSourceImpl(sl()));
   sl.registerLazySingleton<AddHousesLocalDataSource>(
       () => AddHousesLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<AddExistingHousesLocalDataSource>(
+      () => const AddExistingHousesLocalDataSourceImpl());
 
   sl.registerLazySingleton<ShowTasksOfListesLocalDataSource>(
       () => ShowTaskLocalDataSourceImpl(sl()));

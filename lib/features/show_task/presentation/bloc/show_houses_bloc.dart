@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/use_case/use_case.dart';
 import 'package:kipsy/features/add_house/domain/entity/house.dart';
+import 'package:kipsy/features/add_house/presentation/pages/add_existing_house_view.dart';
 import 'package:kipsy/features/add_house/presentation/pages/add_house_view.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_list/presentation/pages/add_list_view.dart';
@@ -24,7 +25,6 @@ import 'package:kipsy/features/show_task/presentation/model/sub_tab_model.dart';
 import 'package:kipsy/features/show_task/presentation/model/tab_model.dart';
 import 'package:kipsy/features/show_task/presentation/pages/all_houses_view.dart';
 import 'package:kipsy/features/show_task/presentation/pages/all_listes_view.dart';
-import 'package:kipsy/features/show_task/presentation/pages/all_tasks_view.dart';
 import 'package:kipsy/features/show_task/presentation/pages/done_tasks_view.dart';
 import 'package:kipsy/features/show_task/presentation/pages/house_list_task_view.dart';
 import 'package:kipsy/features/show_task/presentation/pages/task_detail.dart';
@@ -64,8 +64,8 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
 
   List<TabModel> tabs = [
     const TabModel(id: 0, imgName: 'home', view: HouseListTaskView()),
-    const TabModel(id: 1, imgName: 'home', view: AllTasks()),
-    const TabModel(id: 2, imgName: 'check-mark', view: DoneTasks()),
+    //const TabModel(id: 1, imgName: 'home', view: AllTasks()),
+    const TabModel(id: 1, imgName: 'check-mark', view: DoneTasks()),
   ];
 
   List<SubTabModel> subPage = [
@@ -152,6 +152,16 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
     //Navigate
     MaterialPageRoute materialPageRoute =
         MaterialPageRoute(builder: (_) => const AddHouse());
+    await Navigator.of(context).push(materialPageRoute);
+    //Update
+    getAllHouses();
+    //getAllTasks();
+  }
+
+  void goToAddExistingGroup(BuildContext context) async {
+    //Navigate
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (_) => const AddExistingHouse());
     await Navigator.of(context).push(materialPageRoute);
     //Update
     getAllHouses();

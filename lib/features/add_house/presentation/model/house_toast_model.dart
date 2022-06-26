@@ -29,4 +29,22 @@ class HouseToastModel {
       description: 'Try again later..',
       icon: Icons.error,
       color: ColorManager.error);
+
+  static HouseToastModel get addExistingHouseWarning => const HouseToastModel(
+      title: 'Warning',
+      description: 'You should fill all inputs',
+      icon: Icons.info,
+      color: ColorManager.blue);
+
+  static HouseToastModel get addExistingHouseSuccess => const HouseToastModel(
+      title: 'Success',
+      description: 'Add House Successfully',
+      icon: Icons.check,
+      color: ColorManager.lightGreen);
+
+  static HouseToastModel get addExistingHouseError => const HouseToastModel(
+      title: 'Error',
+      description: 'Try again later..',
+      icon: Icons.error,
+      color: ColorManager.error);
 }
