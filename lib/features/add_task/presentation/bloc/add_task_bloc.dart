@@ -27,7 +27,7 @@ class AddTaskBloc extends Cubit<AddTaskState> {
       isDone: false,
       views: 0,
       dateTime: DateTime.now(),
-      quantite: int.parse(quantiteController.text),
+      quantite: int.tryParse(quantiteController.text) ?? 0,
       unite: uniteController.text,
       list: liste.id);
 

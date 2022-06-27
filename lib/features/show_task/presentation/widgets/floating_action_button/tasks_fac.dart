@@ -15,6 +15,15 @@ class TaskFAB extends InterfaceFab {
           Icons.add_task,
           color: Colors.white,
         ),
+        label: 'Add image',
+        backgroundColor: ColorManager.purple,
+        onTap: () => homeBloc.goToAddTask(context),
+      ),
+      SpeedDialChild(
+        child: const Icon(
+          Icons.add_task,
+          color: Colors.white,
+        ),
         label: 'Add tasks',
         backgroundColor: ColorManager.purple,
         onTap: () => homeBloc.goToAddTask(context),

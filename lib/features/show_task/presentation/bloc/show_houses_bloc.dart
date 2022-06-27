@@ -175,15 +175,18 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
   }
 
   void goToAddList(BuildContext context) async {
-    //Navigate
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(
-        builder: (_) => AddList(
-              houseEntity: selectedHouse!,
-            ));
-    await Navigator.of(context).push(materialPageRoute);
-    //Update
-    getListesOfHouses(selectedHouse!);
-    //getAllTasks();
+    if (selectedHouse != null) {
+      //Navigate
+      MaterialPageRoute materialPageRoute = MaterialPageRoute(
+          builder: (_) => AddList(
+                houseEntity: selectedHouse!,
+              ));
+      await Navigator.of(context).push(materialPageRoute);
+
+      //Update
+      getListesOfHouses(selectedHouse!);
+      //getAllTasks();
+    }
   }
 
   void goToAddTask(BuildContext context) async {
@@ -266,7 +269,9 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
 
   void goBack(BuildContext context) {
     currentSubPage = currentSubPage > 0 ? currentSubPage - 1 : currentSubPage;
-    selectedHouse = null;
+    if (currentSubPage == 0) {
+      selectedHouse = null;
+    }
     getAllHouses();
     emit(HomeLoaded());
     //Navigator.pop(context);
