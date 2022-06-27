@@ -51,7 +51,7 @@ class AllHouses extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 14),
                   child: Text(
-                    'All Houses',
+                    'All Groups',
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                   ),
                 ),

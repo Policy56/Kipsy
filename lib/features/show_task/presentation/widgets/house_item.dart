@@ -74,7 +74,8 @@ class HouseItem extends StatelessWidget {
             DismissiblePane(onDismissed: () => homeBloc.shareHouse(house)),*/
         children: [
           SlidableAction(
-            onPressed: (BuildContext? context) => homeBloc.shareHouse(house),
+            onPressed: (BuildContext? context) =>
+                homeBloc.shareHouse(house, context!),
             backgroundColor: ColorManager.blue,
             foregroundColor: Colors.white,
             icon: Icons.share,
@@ -99,32 +100,6 @@ class HouseItem extends StatelessWidget {
                     ]),
           child: Row(
             children: [
-              /*BlocBuilder<ShowHouseBloc, ShowHouseState>(
-                  builder: (BuildContext context, ShowHouseState state) => InkWell(
-                        onTap: () => null,//homeBloc.setTaskDone(task),
-                        child: Container(
-                          width: 35,
-                          height: 35,
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: task.isDone == true
-                                  ? Colors.green.shade300
-                                  : Colors.grey[100]!),
-                          child: CircleAvatar(
-                            backgroundColor: task.isDone == true
-                                ? Colors.green
-                                : Colors.grey[200],
-                            child: task.isDone == true
-                                ? const Icon(
-                                    Icons.done,
-                                    color: Colors.white,
-                                    size: 15,
-                                  )
-                                : const SizedBox(),
-                          ),
-                        ),
-                      )),*/
               const SizedBox(
                 width: 12,
               ),

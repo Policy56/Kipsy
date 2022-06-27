@@ -20,7 +20,7 @@ class HouseToastModel {
 
   static HouseToastModel get addHouseSuccess => const HouseToastModel(
       title: 'Success',
-      description: 'Add House Successfully',
+      description: 'Add Group Successfully',
       icon: Icons.check,
       color: ColorManager.lightGreen);
 
@@ -38,7 +38,13 @@ class HouseToastModel {
 
   static HouseToastModel get addExistingHouseSuccess => const HouseToastModel(
       title: 'Success',
-      description: 'Add House Successfully',
+      description: 'Add Group Successfully',
+      icon: Icons.check,
+      color: ColorManager.lightGreen);
+
+  static HouseToastModel get fullyCopiedToClipboard => const HouseToastModel(
+      title: 'Success',
+      description: 'Share code has been copied in Clipboard',
       icon: Icons.check,
       color: ColorManager.lightGreen);
 

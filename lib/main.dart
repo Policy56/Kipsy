@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (_) => ShowHousesBloc(
-                sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl())
+                sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl())
               ..getAllHouses()),
       ],
       child: DynamicTheme(

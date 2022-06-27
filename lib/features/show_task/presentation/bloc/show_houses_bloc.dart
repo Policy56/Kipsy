@@ -1,9 +1,12 @@
 import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/use_case/use_case.dart';
 import 'package:kipsy/features/add_house/domain/entity/house.dart';
+import 'package:kipsy/features/add_house/presentation/model/house_toast_model.dart';
 import 'package:kipsy/features/add_house/presentation/pages/add_existing_house_view.dart';
 import 'package:kipsy/features/add_house/presentation/pages/add_house_view.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
@@ -16,7 +19,6 @@ import 'package:kipsy/features/show_task/domain/use_case/delete_listes_of_house_
 import 'package:kipsy/features/show_task/domain/use_case/delete_task_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/get_list_of_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/get_task_of_list_use_case.dart';
-import 'package:kipsy/features/show_task/domain/use_case/share_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/update_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/update_listes_of_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/update_task_use_case.dart';
@@ -32,11 +34,15 @@ import 'package:kipsy/features/show_task/presentation/pages/tasks_of_lists_view.
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/home_fab.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/list_fab.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/tasks_fac.dart';
+import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ShowHousesBloc extends Cubit<ShowHouseState> {
   final AllHousesUseCase _allHousesUseCase;
 
-  final ShareHouseUseCase _shareHouse;
+  //final ShareHouseUseCase _shareHouse;
   final DeleteHouseUseCase _deleteHouse;
   final UpdateHouseUseCase _updateHouse;
   final GetListOfHousesUseCase _getListOfHousesUseCase;
@@ -49,7 +55,7 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
   ShowHousesBloc(
     this._allHousesUseCase,
     this._deleteHouse,
-    this._shareHouse,
+    //this._shareHouse,
     this._updateHouse,
     this._getListOfHousesUseCase,
     this._deleteListesOfHouse,
@@ -299,9 +305,64 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
         emit(HomeLoaded());
       });
 
-  Future<void> shareHouse(HouseEntity house) async {
-    await _shareHouse(HouseParams(houseEntity: house));
+  Future<void> shareHouse(HouseEntity house, BuildContext context) async {
+    //await _shareHouse(HouseParams(houseEntity: house));
 
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: const BorderSide(color: Colors.transparent, width: 2)),
+          title: const Text("Share code"),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: QrImage(
+                  data: house.share_code ?? "",
+                  version: QrVersions.auto,
+
+                  //size: MediaQuery.of(context).size.width
+                  size: 200.0,
+                  errorStateBuilder: (cxt, err) {
+                    return Container(
+                      child: const Center(
+                        child: Text(
+                          "Uh oh! Something went wrong...",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              InkWell(
+                child: Text(house.share_code ?? ""),
+                onLongPress: () async {
+                  await Clipboard.setData(
+                      ClipboardData(text: house.share_code));
+                  showToast(context, HouseToastModel.fullyCopiedToClipboard);
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            CustomButton(
+                text: 'Share',
+                color: ColorManager.lightGrey,
+                width: MediaQuery.of(context).size.width / 3,
+                onTap: () => null //Navigator.of(context).pop(false)),
+                )
+          ],
+        );
+      },
+    );
     // updateLists();
     // emit(HomeLoaded());
   }
@@ -328,4 +389,20 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
         (e) => log(e.msg ?? ''),
         (house) => emit(HomeLoaded()),
       );
+
+  void showToast(BuildContext context, HouseToastModel toastModel) {
+    MotionToast(
+      icon: toastModel.icon!,
+      title: Text(toastModel.title ?? '', style: testStyle),
+      description: Text(
+        toastModel.description ?? '',
+        style: testStyle,
+      ),
+      position: MotionToastPosition.bottom,
+      animationType: AnimationType.fromBottom,
+      primaryColor: toastModel.color!,
+    ).show(context);
+  }
+
+  TextStyle get testStyle => const TextStyle(color: ColorManager.greyColor);
 }

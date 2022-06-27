@@ -79,9 +79,13 @@ class AddBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     AddListBloc addListBloc = context.read<AddListBloc>();
     return BlocConsumer<AddListBloc, AddListState>(
-        listener: (BuildContext context, AddListState state) {
+        listener: (BuildContext context, AddListState state) async {
       if (state is AddListLoad) {
         addListBloc.clearControllers();
+        if (Navigator.of(context).canPop()) {
+          await Future<void>.delayed(const Duration(milliseconds: 500));
+          addListBloc.goBack(context);
+        }
         addListBloc.showToast(context, ListToastModel.addListSuccess);
       } else if (state is AddListError) {
         addListBloc.showToast(context, ListToastModel.addListError);

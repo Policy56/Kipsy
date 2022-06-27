@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
@@ -9,6 +12,7 @@ import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.d
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/swipe_line.dart';
 import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class AddExistingHouse extends StatelessWidget {
   const AddExistingHouse({Key? key}) : super(key: key);
@@ -17,13 +21,15 @@ class AddExistingHouse extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => AddExistingHouseBloc(sl()),
-      child: const AddExistingHouseView(),
+      child: AddExistingHouseView(),
     );
   }
 }
 
 class AddExistingHouseView extends StatelessWidget {
-  const AddExistingHouseView({Key? key}) : super(key: key);
+  AddExistingHouseView({Key? key}) : super(key: key);
+
+  Barcode? result;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +58,10 @@ class AddExistingHouseView extends StatelessWidget {
                 controller: addExistingHouseBloc.titleController,
                 textInputAction: TextInputAction.next,
                 maxLines: 1,
+                childButton: QRBtn(addExistingHouseBloc.titleController),
               ),
               const SizedBox(
-                height: 40,
+                height: 10,
               ),
               const AddBtn()
             ],
@@ -72,9 +79,13 @@ class AddBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     AddExistingHouseBloc bloc = context.read<AddExistingHouseBloc>();
     return BlocConsumer<AddExistingHouseBloc, AddExistingHouseState>(
-        listener: (BuildContext context, AddExistingHouseState state) {
+        listener: (BuildContext context, AddExistingHouseState state) async {
       if (state is AddExistingHouseLoad) {
         bloc.clearControllers();
+        if (Navigator.of(context).canPop()) {
+          await Future<void>.delayed(const Duration(milliseconds: 500));
+          bloc.goBack(context);
+        }
         bloc.showToast(context, HouseToastModel.addExistingHouseSuccess);
       } else if (state is AddExistingHouseError) {
         bloc.showToast(context, HouseToastModel.addExistingHouseError);
@@ -95,5 +106,112 @@ class AddBtn extends StatelessWidget {
         onTap: () => bloc.saveExistingHouse(context),
       );
     });
+  }
+}
+
+class QRBtn extends StatelessWidget {
+  TextEditingController titleController;
+
+  QRBtn(this.titleController, {Key? key}) : super(key: key);
+
+  Barcode? result;
+  QRViewController? controller;
+
+  @override
+  Widget build(BuildContext context) {
+    AddExistingHouseBloc bloc = context.read<AddExistingHouseBloc>();
+    return BlocConsumer<AddExistingHouseBloc, AddExistingHouseState>(
+        listener: (BuildContext context, AddExistingHouseState state) {},
+        builder: (BuildContext context, AddExistingHouseState state) {
+          if (state is AddExistingHouseLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is AddExistingHouseError) {
+            return Center(child: Text(state.msg ?? ''));
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            child: CustomButtonChildIcon(
+                childIcon: const Icon(Icons.qr_code, color: Colors.white),
+                color: ColorManager.blue,
+                fontColor: Colors.white,
+                padding: EdgeInsets.zero,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => QRViewExample(_onQRViewResult),
+                  ));
+                }),
+          );
+        });
+  }
+
+  void _onQRViewResult(Barcode? barcode) {
+    titleController.text = barcode!.code ?? "";
+  }
+}
+
+class QRViewExample extends StatefulWidget {
+  QRViewExample(this.fctOnCreated, {Key? key}) : super(key: key);
+
+  Function(Barcode?) fctOnCreated;
+
+  @override
+  State<StatefulWidget> createState() => _QRViewExampleState();
+}
+
+class _QRViewExampleState extends State<QRViewExample> {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  QRViewController? controller;
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    } else if (Platform.isIOS) {
+      controller!.resumeCamera();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 5,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+              //formatsAllowed: const <BarcodeFormat>[BarcodeFormat.aztec],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    StreamSubscription<Barcode>? fctListen;
+    fctListen = controller.scannedDataStream.listen((scanData) {
+      widget.fctOnCreated(scanData);
+      bool canPop = Navigator.canPop(context);
+      if (canPop) {
+        fctListen!.cancel();
+        Navigator.of(context).pop();
+      }
+    });
+    reassemble();
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

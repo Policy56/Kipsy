@@ -162,7 +162,23 @@ class DbService {
   ///
 
   Future<void> deleteHouse(HouseEntity houseEntity) async {
-    await FirebaseFirestore.instance
+    List<HouseModel>? listHouse;
+    final prefs = await SharedPreferences.getInstance();
+    //await prefs.setStringList('items', <String>['Earth', 'Moon', 'Sun']);
+
+    List<String>? savedItems = prefs.getStringList('house');
+
+    savedItems ??= [];
+
+    if (savedItems.isNotEmpty) {
+      savedItems.removeWhere((element) => element == houseEntity.share_code);
+    }
+    savedItems;
+    await prefs.setStringList('house', savedItems);
+
+    // On ne supprime plus en base le group et les listes quand on supprime dans l'appli
+
+    /*await FirebaseFirestore.instance
         .collection("house")
         .doc(houseEntity.id)
         .delete();
@@ -173,6 +189,7 @@ class DbService {
         await deleteListOfHouse(list);
       }
     }
+    */
   }
 
   Future<void> deleteListOfHouse(ListesOfHouseEntity list) async {

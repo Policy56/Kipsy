@@ -32,7 +32,6 @@ import 'package:kipsy/features/show_task/domain/use_case/delete_listes_of_house_
 import 'package:kipsy/features/show_task/domain/use_case/delete_task_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/get_list_of_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/get_task_of_list_use_case.dart';
-import 'package:kipsy/features/show_task/domain/use_case/share_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/update_house_use_case.dart';
 import 'package:kipsy/features/show_task/domain/use_case/update_listes_of_house_use_case.dart';
 
@@ -53,7 +52,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateTaskUSeCase(sl()));
 
   sl.registerLazySingleton(() => AllHousesUseCase(sl()));
-  sl.registerLazySingleton(() => const ShareHouseUseCase());
+  //sl.registerLazySingleton(() => const ShareHouseUseCase());
   sl.registerLazySingleton(() => DeleteHouseUseCase(sl()));
   sl.registerLazySingleton(() => UpdateHouseUseCase(sl()));
 

@@ -1,4 +1,4 @@
-import 'package:kipsy/core/use_case/use_case.dart';
+/*import 'package:kipsy/core/use_case/use_case.dart';
 
 class ShareHouseUseCase /*implements UseCase<HouseEntity, HouseParams> */ {
   const ShareHouseUseCase();
@@ -8,3 +8,4 @@ class ShareHouseUseCase /*implements UseCase<HouseEntity, HouseParams> */ {
     //return _repository.deleteHouse(params.houseEntity!);
   }
 }
+*/

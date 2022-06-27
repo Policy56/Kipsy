@@ -12,7 +12,8 @@ class CustomTextField extends StatelessWidget {
       this.title,
       this.keyboardType,
       this.maxLength,
-      this.inputFormatter})
+      this.inputFormatter,
+      this.childButton})
       : super(key: key);
   final TextEditingController? controller;
   final String? hintText, title;
@@ -20,6 +21,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength, maxLines;
   final TextInputAction? textInputAction;
   final List<TextInputFormatter>? inputFormatter;
+  final Widget? childButton;
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +48,41 @@ class CustomTextField extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          TextFormField(
-            controller: controller,
-            cursorColor: ColorManager.blue,
-            keyboardType: keyboardType,
-            maxLength: maxLength,
-            maxLines: maxLines,
-            textInputAction: textInputAction,
-            inputFormatters: inputFormatter,
-            decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                border: inputBorder,
-                enabledBorder: inputBorder,
-                focusedBorder: inputBorder,
-                hintText: hintText,
-                hintStyle: const TextStyle(
-                    color: ColorManager.lightGrey2,
-                    fontWeight: FontWeight.w400),
-                counterText: ''),
+          Row(
+            children: [
+              Expanded(
+                flex: 6,
+                child: TextFormField(
+                  controller: controller,
+                  cursorColor: ColorManager.blue,
+                  keyboardType: keyboardType,
+                  maxLength: maxLength,
+                  maxLines: maxLines,
+                  textInputAction: textInputAction,
+                  inputFormatters: inputFormatter,
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      border: inputBorder,
+                      enabledBorder: inputBorder,
+                      focusedBorder: inputBorder,
+                      hintText: hintText,
+                      hintStyle: const TextStyle(
+                          color: ColorManager.lightGrey2,
+                          fontWeight: FontWeight.w400),
+                      counterText: ''),
+                ),
+              ),
+              (childButton != null)
+                  ? const SizedBox(
+                      width: 20,
+                    )
+                  : Container(),
+              Expanded(
+                child: childButton ?? Container(),
+                flex: 1,
+              )
+            ],
           ),
         ],
       ),
