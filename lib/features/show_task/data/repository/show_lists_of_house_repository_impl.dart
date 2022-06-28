@@ -43,6 +43,6 @@ class ShowListesOfHouseRepositoryImpl implements ShowListesOfHouseRepository {
   }
 }
 
-const String errorGetListOfHouses = 'Error in get list of the house';
-const String errorRemoveListOfHouse = 'Error in remove list of the house';
-const String errorUpdateListOfHouse = 'Error in update list of the house';
+const String errorGetListOfHouses = 'Error in get list of the group';
+const String errorRemoveListOfHouse = 'Error in remove list of the group';
+const String errorUpdateListOfHouse = 'Error in update list of the group';

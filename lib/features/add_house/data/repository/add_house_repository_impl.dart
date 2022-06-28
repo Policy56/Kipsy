@@ -26,4 +26,4 @@ class AddHouseRepositoryImpl implements AddHouseRepository {
   }
 }
 
-const String errorAddHouse = 'Error when add new House';
+const String errorAddHouse = 'Error when add new group';

@@ -17,7 +17,7 @@ class AllHouses extends StatelessWidget {
       return homeBloc.houses.isEmpty
           ? const EmptyState(
               imgName: 'no-tasks',
-              text: 'No House Yet',
+              text: 'No group Yet',
             )
           : ListView(
               padding: const EdgeInsets.symmetric(horizontal: 22),
@@ -27,7 +27,7 @@ class AllHouses extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 14),
                     child: Text(
-                      'Most Visited Houses',
+                      'Most Visited Groups',
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                     ),

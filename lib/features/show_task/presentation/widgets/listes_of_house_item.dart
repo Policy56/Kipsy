@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
+import 'package:kipsy/core/time/time_format.dart';
+import 'package:kipsy/core/widget/custom_dismissable_pane_with_dialog.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 
@@ -16,12 +18,15 @@ class ListesOfHouseItem extends StatelessWidget {
       key: ValueKey(listOfHouseEntity.id),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
-        dismissible: DismissiblePane(
-            onDismissed: () => homeBloc.deleteListesOfHouse(listOfHouseEntity)),
+        dismissible: CustomDismissiblePaneWithDialog(
+          onDismissedFct: () => homeBloc.deleteListesOfHouse(listOfHouseEntity),
+          itemToDelete: listOfHouseEntity.titre ?? "",
+        ),
         children: [
           SlidableAction(
-            onPressed: (BuildContext? context) =>
-                homeBloc.deleteListesOfHouse(listOfHouseEntity),
+            onPressed: (BuildContext context) async {
+              //  homeBloc.deleteListesOfHouse(listOfHouseEntity),
+            },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
             icon: Icons.delete,
@@ -87,14 +92,10 @@ class ListesOfHouseItem extends StatelessWidget {
                           fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                     Text(
-                      listOfHouseEntity.house ?? "",
+                      TimeFormat.instance.formatDate(
+                          dayNameWithTime, listOfHouseEntity.dateTime!),
                       style: const TextStyle(color: Colors.grey),
                     ),
-                    /* Text(
-                      TimeFormat.instance.formatDate(
-                          dayNameWithTime, DateTime.parse(house.dateTime!)),
-                      style: const TextStyle(color: Colors.grey),
-                    ),*/
                   ],
                 ),
               )

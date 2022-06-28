@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
@@ -25,7 +26,10 @@ class TaskDetailView extends StatelessWidget {
           backgroundColor: ColorManager.pink,
           leading: IconButton(
               onPressed: () => goBack(context, task),
-              icon: const Icon(Icons.arrow_back_ios)),
+              icon: const Icon(Icons.arrow_back_ios),
+              color: ThemeManager.isDark(context)
+                  ? ColorManager.lightGrey
+                  : ColorManager.blue),
         ),
         backgroundColor: ColorManager.pink,
         body: PageHeader(
@@ -48,10 +52,35 @@ class TaskDetailView extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 40,
+              ),
+              ((task.unite != null || task.quantite != null) &&
+                      (task.unite != "" || task.quantite != 0))
+                  ? Text(
+                      (task.unite != null || task.quantite != null)
+                          ? ((task.quantite != null && task.quantite! > 0)
+                                  ? task.quantite!.toString()
+                                  : "") +
+                              ((task.unite != null) ? task.unite! : "")
+                          : "",
+                      textAlign: TextAlign.justify,
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                    )
+                  : Container(),
+              ((task.unite != null || task.quantite != null) &&
+                      (task.unite != "" || task.quantite != 0))
+                  ? const SizedBox(
+                      height: 20,
+                    )
+                  : Container(),
               Text(
                 task.description ?? '',
                 textAlign: TextAlign.justify,
-                style: const TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey, fontSize: 16),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +128,9 @@ class TaskStatus extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                     color: task.isDone == false
-                        ? ColorManager.blue.withAlpha(50)
+                        ? ThemeManager.isDark(context)
+                            ? ColorManager.lightGrey.withAlpha(50)
+                            : ColorManager.blue.withAlpha(50)
                         : ColorManager.lightGreen.withAlpha(50)),
                 child: Center(
                   child: Text(
@@ -109,7 +140,9 @@ class TaskStatus extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: task.isDone == false
-                            ? ColorManager.blue
+                            ? ThemeManager.isDark(context)
+                                ? ColorManager.lightGrey
+                                : ColorManager.blue
                             : ColorManager.lightGreen),
                   ),
                 ),

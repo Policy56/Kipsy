@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
+import 'package:kipsy/core/widget/custom_dismissable_pane_with_dialog.dart';
 import 'package:kipsy/features/add_house/domain/entity/house.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
-import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
 
 class HouseItem extends StatelessWidget {
   const HouseItem(this.house, {Key? key}) : super(key: key);
@@ -18,43 +18,9 @@ class HouseItem extends StatelessWidget {
       key: ValueKey(house.id),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
-        dismissible: DismissiblePane(
-          onDismissed: () => homeBloc.deleteHouse(house),
-          confirmDismiss: () async {
-            bool? result = await showDialog<bool>(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: const BorderSide(
-                          color: Colors.transparent, width: 2)),
-                  title: const Text("Confirm"),
-                  content:
-                      Text("Are you sure you wish to delete ${house.titre} ?"),
-                  actions: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomButton(
-                            text: 'Delete',
-                            color: ColorManager.red,
-                            fontColor: Colors.white,
-                            width: MediaQuery.of(context).size.width / 3,
-                            onTap: () => Navigator.of(context).pop(true)),
-                        CustomButton(
-                            text: 'Cancel',
-                            color: ColorManager.lightGrey,
-                            width: MediaQuery.of(context).size.width / 3,
-                            onTap: () => Navigator.of(context).pop(false)),
-                      ],
-                    ),
-                  ],
-                );
-              },
-            );
-            return result != null ? Future.value(result) : Future.value(false);
-          },
+        dismissible: CustomDismissiblePaneWithDialog(
+          onDismissedFct: () => homeBloc.deleteHouse(house),
+          itemToDelete: house.titre ?? "",
         ),
         children: [
           SlidableAction(

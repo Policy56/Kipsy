@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
+import 'package:kipsy/core/themes/theme_manager.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField(
@@ -36,7 +37,10 @@ class CustomTextField extends StatelessWidget {
               Text(
                 title ?? '',
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    color: ColorManager.blue, fontWeight: FontWeight.w700),
+                    color: ThemeManager.isDark(context)
+                        ? ColorManager.lightGrey
+                        : ColorManager.blue,
+                    fontWeight: FontWeight.w700),
               ),
               const Expanded(
                 child: Divider(

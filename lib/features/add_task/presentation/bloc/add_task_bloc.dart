@@ -32,7 +32,7 @@ class AddTaskBloc extends Cubit<AddTaskState> {
       list: liste.id);
 
   bool get validateInputs =>
-      titleController.text.isEmpty || descriptionController.text.isEmpty;
+      titleController.text.isEmpty /*|| descriptionController.text.isEmpty*/;
 
   void saveTask(BuildContext context) async {
     if (validateInputs) {

@@ -23,7 +23,7 @@ class ShowHousesView extends StatelessWidget {
                 ? IconButton(
                     color: ThemeManager.isDark(context)
                         ? ColorManager.lightGrey
-                        : Colors.black,
+                        : ColorManager.blue,
                     onPressed: () => houseBloc.goBack(context),
                     icon: const Icon(Icons.arrow_back_ios))
                 : Container();

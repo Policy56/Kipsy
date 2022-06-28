@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
+import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/dependency_container.dart';
 import 'package:kipsy/features/add_house/domain/entity/house.dart';
 import 'package:kipsy/features/add_list/presentation/bloc/add_list_bloc.dart';
@@ -46,7 +47,10 @@ class AddListView extends StatelessWidget {
           backgroundColor: ColorManager.blue,
           leading: IconButton(
               onPressed: () => addListBloc.goBack(context),
-              icon: const Icon(Icons.arrow_back_ios)),
+              icon: const Icon(Icons.arrow_back_ios),
+              color: ThemeManager.isDark(context)
+                  ? ColorManager.lightGrey
+                  : ColorManager.blue),
         ),
         backgroundColor: ColorManager.blue,
         body: PageHeader(

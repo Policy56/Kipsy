@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/core/time/time_format.dart';
+import 'package:kipsy/core/widget/custom_dismissable_pane_with_dialog.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_states.dart';
@@ -18,11 +19,15 @@ class TaskItem extends StatelessWidget {
       key: ValueKey(task.id),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
-        dismissible:
-            DismissiblePane(onDismissed: () => homeBloc.deleteTask(task)),
+        dismissible: CustomDismissiblePaneWithDialog(
+          onDismissedFct: () => homeBloc.deleteTask(task),
+          itemToDelete: task.titre ?? "",
+        ),
         children: [
           SlidableAction(
-            onPressed: (BuildContext? context) => homeBloc.deleteTask(task),
+            onPressed: (BuildContext context) async {
+              //(BuildContext? context) => homeBloc.deleteTask(task);
+            },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
             icon: Icons.delete,
@@ -78,20 +83,52 @@ class TaskItem extends StatelessWidget {
                 width: 12,
               ),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      task.titre ?? '',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          task.titre ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
+                        ),
+                        Text(
+                          TimeFormat.instance
+                              .formatDate(dayNameWithTime, task.dateTime!),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ],
                     ),
-                    Text(
-                      TimeFormat.instance
-                          .formatDate(dayNameWithTime, task.dateTime!),
-                      style: const TextStyle(color: Colors.grey),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          (task.unite != null || task.quantite != null)
+                              ? ((task.quantite != null && task.quantite! > 0)
+                                      ? task.quantite!.toString()
+                                      : "") +
+                                  ((task.unite != null) ? task.unite! : "")
+                              : "",
+                          /*+
+                                      ((task.unite != null)
+                                          ? "task.unite!.toString()"
+                                          : "")*/
+
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
+                        ),
+                        Text(
+                          task.description ?? "",
+                          style: const TextStyle(color: Colors.grey),
+                          overflow: TextOverflow.fade,
+                        ),
+                      ],
                     ),
                   ],
                 ),

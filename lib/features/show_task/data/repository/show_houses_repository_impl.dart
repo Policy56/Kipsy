@@ -39,6 +39,6 @@ class ShowHouseRepositoryImpl implements ShowHouseRepository {
   }
 }
 
-const String errorGetHouses = 'Error in get houses';
-const String errorRemoveHouse = 'Error in remove house';
-const String errorUpdateHouse = 'Error in update house';
+const String errorGetHouses = 'Error in get groups';
+const String errorRemoveHouse = 'Error in remove group';
+const String errorUpdateHouse = 'Error in update group';

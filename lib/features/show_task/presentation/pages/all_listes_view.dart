@@ -17,7 +17,7 @@ class AllListesView extends StatelessWidget {
       return homeBloc.listesOfHouse.isEmpty
           ? const EmptyState(
               imgName: 'no-tasks',
-              text: 'No Liste of this house Yet',
+              text: 'No List of this group Yet',
             )
           : ListView(
               padding: const EdgeInsets.symmetric(horizontal: 22),

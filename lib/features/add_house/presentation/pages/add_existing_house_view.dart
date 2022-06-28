@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
+import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/dependency_container.dart';
 import 'package:kipsy/features/add_house/presentation/bloc/add_existing_house_bloc.dart';
 import 'package:kipsy/features/add_house/presentation/bloc/add_existing_house_state.dart';
@@ -45,7 +46,10 @@ class AddExistingHouseView extends StatelessWidget {
           backgroundColor: ColorManager.blue,
           leading: IconButton(
               onPressed: () => addExistingHouseBloc.goBack(context),
-              icon: const Icon(Icons.arrow_back_ios)),
+              icon: const Icon(Icons.arrow_back_ios),
+              color: ThemeManager.isDark(context)
+                  ? ColorManager.lightGrey
+                  : ColorManager.blue),
         ),
         backgroundColor: ColorManager.blue,
         body: PageHeader(

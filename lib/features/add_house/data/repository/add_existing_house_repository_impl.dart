@@ -19,4 +19,4 @@ class AddExistingHouseRepositoryImpl implements AddExistingHouseRepository {
   }
 }
 
-const String errorAddExistingHouse = 'Error when add existing House';
+const String errorAddExistingHouse = 'Error when add existing group';

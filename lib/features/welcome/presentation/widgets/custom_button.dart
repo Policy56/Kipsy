@@ -52,7 +52,7 @@ class CustomButton extends StatelessWidget {
           style: TextStyle(
               color: fontColor ??
                   (ThemeManager.isDark(context)
-                      ? Colors.white
+                      ? ColorManager.greyColor
                       : ColorManager.purple),
               fontWeight: FontWeight.w700),
         ),
