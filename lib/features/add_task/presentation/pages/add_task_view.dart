@@ -51,7 +51,7 @@ class AddTaskView extends StatelessWidget {
               icon: const Icon(Icons.arrow_back_ios),
               color: ThemeManager.isDark(context)
                   ? ColorManager.lightGrey
-                  : ColorManager.blue),
+                  : ColorManager.lightGrey),
         ),
         backgroundColor: ColorManager.blue,
         body: PageHeader(
