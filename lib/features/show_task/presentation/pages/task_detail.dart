@@ -2,15 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
+import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_states.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 
 import '../../../../core/themes/colors_manager.dart';
 import '../../../add_task/presentation/widgets/swipe_line.dart';
 
 class TaskDetailView extends StatelessWidget {
   const TaskDetailView({Key? key}) : super(key: key);
+
+  void showToast(BuildContext context, TaskToastModel toastModel) {
+    MotionToast(
+      icon: toastModel.icon!,
+      title: Text(toastModel.title ?? '', style: testStyle),
+      description: Text(
+        toastModel.description ?? '',
+        style: testStyle,
+      ),
+      position: MotionToastPosition.bottom,
+      animationType: AnimationType.fromBottom,
+      primaryColor: toastModel.color!,
+    ).show(context);
+  }
+
+  TextStyle get testStyle => const TextStyle(color: ColorManager.greyColor);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +43,17 @@ class TaskDetailView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: ColorManager.pink,
+          actions: [
+            IconButton(
+                onPressed: () => showToast(
+                    context,
+                    TaskToastModel
+                        .editTaskNotImplemented), //goBack(context, task),
+                icon: const Icon(Icons.edit),
+                color: ThemeManager.isDark(context)
+                    ? ColorManager.lightGrey
+                    : ColorManager.blue)
+          ],
           leading: IconButton(
               onPressed: () => goBack(context, task),
               icon: const Icon(Icons.arrow_back_ios),

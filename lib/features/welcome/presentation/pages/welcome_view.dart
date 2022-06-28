@@ -71,6 +71,7 @@ class WelcomeView extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'Get Started',
+                  fontColor: Colors.white,
                   onTap: () async {
                     // Obtain shared preferences.
                     final prefs = await SharedPreferences.getInstance();

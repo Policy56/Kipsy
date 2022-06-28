@@ -29,4 +29,10 @@ class TaskToastModel {
       description: 'Try again later..',
       icon: Icons.error,
       color: ColorManager.error);
+
+  static TaskToastModel get editTaskNotImplemented => const TaskToastModel(
+      title: '🚧 WIP 🚧',
+      description: 'We are working on it !',
+      icon: Icons.edit,
+      color: ColorManager.orange);
 }
