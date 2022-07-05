@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:kipsy/core/services/db.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/core/time/time_format.dart';
 import 'package:kipsy/core/widget/custom_dismissable_pane_with_dialog.dart';
@@ -81,24 +82,48 @@ class ListesOfHouseItem extends StatelessWidget {
                 width: 12,
               ),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      listOfHouseEntity.titre ?? '',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 16),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          listOfHouseEntity.titre ?? '',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
+                        ),
+                        Text(
+                          TimeFormat.instance.formatDate(
+                              dayNameWithTime, listOfHouseEntity.dateTime!),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ],
                     ),
-                    Text(
-                      TimeFormat.instance.formatDate(
-                          dayNameWithTime, listOfHouseEntity.dateTime!),
-                      style: const TextStyle(color: Colors.grey),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FutureBuilder<String>(
+                            future: DbService()
+                                .getTitleDoneTask(list: listOfHouseEntity),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              Widget child;
+                              if (snapshot.hasData) {
+                                child = Padding(
+                                  padding: const EdgeInsets.only(top: 16),
+                                  child: Text('${snapshot.data}'),
+                                );
+                              } else {
+                                child = Container();
+                              }
+                              return child;
+                            }),
+                      ],
                     ),
-                  ],
-                ),
-              )
+                  ]))
             ],
           ),
         ),

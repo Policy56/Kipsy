@@ -153,6 +153,28 @@ class DbService {
     return tasksOfList;
   }
 
+  Future<String> getTitleDoneTask({ListesOfHouseEntity? list}) async {
+    String returnValue = "";
+
+    List<TaskOfListModel>? listTask = await allTasksOfList(list: list);
+
+    if (listTask != null && listTask.isNotEmpty) {
+      int nbDone = 0;
+
+      for (var element in listTask) {
+        if (element.isDone == true) {
+          nbDone++;
+        }
+      }
+      returnValue = "$nbDone / ${listTask.length}";
+    } else {
+      // TODO(ccl) : trad
+      returnValue = "Empty";
+    }
+
+    return returnValue;
+  }
+
   /// ***
   /// DELETE TASKS
   ///
