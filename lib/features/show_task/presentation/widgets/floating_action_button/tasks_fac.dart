@@ -10,6 +10,8 @@ class TaskFAB extends InterfaceFab {
   List<SpeedDialChild> getListButton(BuildContext context) {
     ShowHousesBloc homeBloc = context.read<ShowHousesBloc>();
     return [
+      // TODO(ccl): ajouter d'autres types de taches
+      /*
       SpeedDialChild(
         child: const Icon(
           Icons.add_task,
@@ -18,7 +20,7 @@ class TaskFAB extends InterfaceFab {
         label: 'Add image',
         backgroundColor: ColorManager.purple,
         onTap: () => homeBloc.goToAddTask(context),
-      ),
+      ),*/
       SpeedDialChild(
         child: const Icon(
           Icons.add_task,

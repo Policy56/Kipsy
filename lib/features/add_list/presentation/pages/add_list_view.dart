@@ -50,7 +50,7 @@ class AddListView extends StatelessWidget {
               icon: const Icon(Icons.arrow_back_ios),
               color: ThemeManager.isDark(context)
                   ? ColorManager.lightGrey
-                  : ColorManager.blue),
+                  : ColorManager.lightGrey),
         ),
         backgroundColor: ColorManager.blue,
         body: PageHeader(
@@ -58,8 +58,13 @@ class AddListView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
             children: [
               const SwipeLine(),
+              /*CustomDropDown<String>(
+                title: 'Type of list',
+                listOfElement: const <String>["Todo", "Agenda"],
+                dropdownValue: addListBloc.dropdownValue,
+              ),*/
               CustomTextField(
-                title: 'New list',
+                title: 'Name of list',
                 controller: addListBloc.titleController,
                 textInputAction: TextInputAction.next,
                 maxLines: 1,

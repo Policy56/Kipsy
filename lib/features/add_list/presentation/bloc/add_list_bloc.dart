@@ -18,10 +18,13 @@ class AddListBloc extends Cubit<AddListState> {
 
   TextEditingController titleController = TextEditingController();
 
+  String? dropdownValue;
+
   ListOfHouseModel get _list => ListOfHouseModel(
       titre: titleController.text, dateTime: DateTime.now(), house: house.id);
 
-  bool get validateInputs => titleController.text.isEmpty;
+  bool get validateInputs =>
+      titleController.text.isEmpty && dropdownValue != "";
 
   void saveList(BuildContext context) async {
     if (validateInputs) {

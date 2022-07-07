@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField(
+class CustomDropDown<T> extends StatefulWidget {
+  CustomDropDown(
       {Key? key,
-      this.controller,
+      required this.listOfElement,
       this.hintText,
-      this.maxLines,
-      this.textInputAction,
       this.title,
-      this.keyboardType,
-      this.maxLength,
-      this.inputFormatter,
-      this.childButton})
+      this.childButton,
+      this.dropdownValue})
       : super(key: key);
-  final TextEditingController? controller;
   final String? hintText, title;
-  final TextInputType? keyboardType;
-  final int? maxLength, maxLines;
-  final TextInputAction? textInputAction;
-  final List<TextInputFormatter>? inputFormatter;
   final Widget? childButton;
+  List<T> listOfElement;
 
+  T? dropdownValue;
+
+  @override
+  State<CustomDropDown<T>> createState() => _CustomDropDownState<T>();
+}
+
+class _CustomDropDownState<T> extends State<CustomDropDown<T>> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,7 +33,7 @@ class CustomTextField extends StatelessWidget {
           Row(
             children: [
               Text(
-                title ?? '',
+                widget.title ?? '',
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     color: ThemeManager.isDark(context)
                         ? ColorManager.lightGrey
@@ -54,39 +52,46 @@ class CustomTextField extends StatelessWidget {
           ),
           Row(
             children: [
+              // TODO(ccl): type de List en param T
               Expanded(
                 flex: 6,
-                child: TextFormField(
-                  controller: controller,
-                  cursorColor: ThemeManager.isDark(context)
-                      ? ColorManager.lightGrey2
-                      : ColorManager.blue,
-                  keyboardType: keyboardType,
-                  maxLength: maxLength,
-                  maxLines: maxLines,
-                  textInputAction: textInputAction,
-                  inputFormatters: inputFormatter,
+                child: DropdownButtonFormField<T>(
+                  value: widget.dropdownValue,
+                  dropdownColor: ThemeManager.isDark(context)
+                      ? ColorManager.greyColor
+                      : ColorManager.lightGrey2,
+                  items: widget.listOfElement
+                      .map((label) => DropdownMenuItem(
+                            child: Text(label.toString()),
+                            value: label,
+                          ))
+                      .toList(),
                   decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 8),
                       border: inputBorder,
                       enabledBorder: inputBorder,
                       focusedBorder: inputBorder,
-                      hintText: hintText,
+                      hintText: widget.hintText,
                       hintStyle: const TextStyle(
                           color: ColorManager.lightGrey2,
                           fontWeight: FontWeight.w400),
                       counterText: ''),
+                  onChanged: (T? newValue) {
+                    setState(() {
+                      widget.dropdownValue = newValue;
+                    });
+                  },
                 ),
               ),
-              (childButton != null)
+              (widget.childButton != null)
                   ? const SizedBox(
                       width: 20,
                     )
                   : Container(),
-              (childButton != null)
+              (widget.childButton != null)
                   ? Expanded(
-                      child: childButton ?? Container(),
+                      child: widget.childButton ?? Container(),
                       flex: 1,
                     )
                   : Container(),

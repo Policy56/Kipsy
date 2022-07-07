@@ -43,7 +43,9 @@ class TaskDetailView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: ColorManager.pink,
-          actions: [
+          actions: const [
+            /*
+            // TODO(ccl): a ajouter la modification de taches
             IconButton(
                 onPressed: () => showToast(
                     context,
@@ -52,7 +54,7 @@ class TaskDetailView extends StatelessWidget {
                 icon: const Icon(Icons.edit),
                 color: ThemeManager.isDark(context)
                     ? ColorManager.lightGrey
-                    : ColorManager.blue)
+                    : ColorManager.blue)*/
           ],
           leading: IconButton(
               onPressed: () => goBack(context, task),
