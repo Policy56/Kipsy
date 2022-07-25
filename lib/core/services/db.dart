@@ -29,6 +29,7 @@ class DbService {
       "titre": list.titre,
       "house": list.house,
       "dateTime": list.dateTime,
+      "type": list.type,
     });
     return ref.id;
   }
@@ -72,7 +73,6 @@ class DbService {
   Future<List<HouseModel>?> allHouse() async {
     List<HouseModel>? listHouse;
     final prefs = await SharedPreferences.getInstance();
-    //await prefs.setStringList('items', <String>['Earth', 'Moon', 'Sun']);
 
     List<String>? savedItems = prefs.getStringList('house');
 
@@ -111,6 +111,7 @@ class DbService {
             id: doc.id,
             titre: doc.data()["titre"] ?? '',
             house: house.id,
+            type: doc.data()["type"] ?? '',
             dateTime: doc.data()["dateTime"] != null &&
                     doc.data()["dateTime"] is Timestamp
                 ? (doc.data()["dateTime"] as Timestamp).toDate()
