@@ -6,6 +6,7 @@ class CustomDropDown<T> extends StatefulWidget {
   CustomDropDown(
       {Key? key,
       required this.listOfElement,
+      required this.updateFunction,
       this.hintText,
       this.title,
       this.childButton,
@@ -16,6 +17,8 @@ class CustomDropDown<T> extends StatefulWidget {
   List<T> listOfElement;
 
   T? dropdownValue;
+
+  Function(T?)? updateFunction;
 
   @override
   State<CustomDropDown<T>> createState() => _CustomDropDownState<T>();
@@ -56,33 +59,28 @@ class _CustomDropDownState<T> extends State<CustomDropDown<T>> {
               Expanded(
                 flex: 6,
                 child: DropdownButtonFormField<T>(
-                  value: widget.dropdownValue,
-                  dropdownColor: ThemeManager.isDark(context)
-                      ? ColorManager.greyColor
-                      : ColorManager.lightGrey2,
-                  items: widget.listOfElement
-                      .map((label) => DropdownMenuItem(
-                            child: Text(label.toString()),
-                            value: label,
-                          ))
-                      .toList(),
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      border: inputBorder,
-                      enabledBorder: inputBorder,
-                      focusedBorder: inputBorder,
-                      hintText: widget.hintText,
-                      hintStyle: const TextStyle(
-                          color: ColorManager.lightGrey2,
-                          fontWeight: FontWeight.w400),
-                      counterText: ''),
-                  onChanged: (T? newValue) {
-                    setState(() {
-                      widget.dropdownValue = newValue;
-                    });
-                  },
-                ),
+                    value: widget.dropdownValue,
+                    dropdownColor: ThemeManager.isDark(context)
+                        ? ColorManager.greyColor
+                        : ColorManager.lightGrey2,
+                    items: widget.listOfElement
+                        .map((label) => DropdownMenuItem(
+                              child: Text(label.toString()),
+                              value: label,
+                            ))
+                        .toList(),
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        border: inputBorder,
+                        enabledBorder: inputBorder,
+                        focusedBorder: inputBorder,
+                        hintText: widget.hintText,
+                        hintStyle: const TextStyle(
+                            color: ColorManager.lightGrey2,
+                            fontWeight: FontWeight.w400),
+                        counterText: ''),
+                    onChanged: widget.updateFunction),
               ),
               (widget.childButton != null)
                   ? const SizedBox(

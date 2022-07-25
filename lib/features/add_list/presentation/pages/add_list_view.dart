@@ -7,6 +7,7 @@ import 'package:kipsy/features/add_house/domain/entity/house.dart';
 import 'package:kipsy/features/add_list/presentation/bloc/add_list_bloc.dart';
 import 'package:kipsy/features/add_list/presentation/bloc/add_list_state.dart';
 import 'package:kipsy/features/add_list/presentation/model/list_toast_model.dart';
+import 'package:kipsy/features/add_task/presentation/widgets/custom_dropdown.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/swipe_line.dart';
@@ -58,11 +59,14 @@ class AddListView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
             children: [
               const SwipeLine(),
-              /*CustomDropDown<String>(
+              CustomDropDown<String>(
                 title: 'Type of list',
                 listOfElement: const <String>["Todo", "Agenda"],
                 dropdownValue: addListBloc.dropdownValue,
-              ),*/
+                updateFunction: (String? newValue) {
+                  addListBloc.dropdownValue = newValue;
+                },
+              ),
               CustomTextField(
                 title: 'Name of list',
                 controller: addListBloc.titleController,

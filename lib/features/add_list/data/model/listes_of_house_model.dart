@@ -5,6 +5,8 @@ class ListOfHouseModel extends ListesOfHouseEntity {
     String? house,
     String? id,
     String? titre,
+    String? type,
     DateTime? dateTime,
-  }) : super(house: house, id: id, titre: titre, dateTime: dateTime);
+  }) : super(
+            house: house, id: id, titre: titre, dateTime: dateTime, type: type);
 }
