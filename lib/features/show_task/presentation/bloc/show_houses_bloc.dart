@@ -332,6 +332,7 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
                 child: QrImage(
                   data: house.share_code ?? "",
                   version: QrVersions.auto,
+                  backgroundColor: Colors.white,
 
                   //size: MediaQuery.of(context).size.width
                   size: 200.0,
@@ -359,11 +360,14 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
           ),
           actions: <Widget>[
             CustomButton(
-                text: 'Share',
-                color: ColorManager.lightGrey,
-                width: MediaQuery.of(context).size.width / 3,
-                onTap: () => null //Navigator.of(context).pop(false)),
-                )
+              text: 'Share',
+              color: ColorManager.lightGrey,
+              width: MediaQuery.of(context).size.width / 3,
+              onTap: () async {
+                await Clipboard.setData(ClipboardData(text: house.share_code));
+                showToast(context, HouseToastModel.fullyCopiedToClipboard);
+              },
+            )
           ],
         );
       },
