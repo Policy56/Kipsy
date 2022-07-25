@@ -43,7 +43,7 @@ class ShowHousesView extends StatelessWidget {
               return SpeedDial(
                   icon: Icons.add,
                   activeIcon: Icons.add,
-                  backgroundColor: ColorManager.purple,
+                  backgroundColor: ColorManager.blue,
                   useRotationAnimation: true,
                   animationCurve: Curves.elasticInOut,
                   animationDuration: const Duration(milliseconds: 300),
@@ -92,7 +92,9 @@ class BottomTabs extends StatelessWidget {
     return BlocBuilder<ShowHousesBloc, ShowHouseState>(
         builder: (BuildContext context, ShowHouseState state) => Container(
               height: 60,
-              color: ThemeManager.isDark(context) ? Colors.black : Colors.white,
+              color: ThemeManager.isDark(context)
+                  ? Colors.black
+                  : ColorManager.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
                 children: homeBloc.tabs
@@ -104,7 +106,7 @@ class BottomTabs extends StatelessWidget {
                             scale: 20,
                             color: e.id == homeBloc.currentPage
                                 ? ThemeManager.isDark(context)
-                                    ? Colors.white
+                                    ? ColorManager.white
                                     : Colors.black
                                 : ThemeManager.isDark(context)
                                     ? Colors.grey[600]

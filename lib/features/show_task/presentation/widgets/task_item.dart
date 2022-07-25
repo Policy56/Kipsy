@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/core/time/time_format.dart';
 import 'package:kipsy/core/widget/custom_dismissable_pane_with_dialog.dart';
@@ -29,7 +30,7 @@ class TaskItem extends StatelessWidget {
               //(BuildContext? context) => homeBloc.deleteTask(task);
             },
             backgroundColor: const Color(0xFFFE4A49),
-            foregroundColor: Colors.white,
+            foregroundColor: ColorManager.white,
             icon: Icons.delete,
           ),
         ],
@@ -40,7 +41,9 @@ class TaskItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
-              color: ThemeManager.isDark(context) ? Colors.black : Colors.white,
+              color: ThemeManager.isDark(context)
+                  ? Colors.black
+                  : ColorManager.white,
               boxShadow: ThemeManager.isDark(context)
                   ? []
                   : [
@@ -72,7 +75,7 @@ class TaskItem extends StatelessWidget {
                             child: task.isDone == true
                                 ? const Icon(
                                     Icons.done,
-                                    color: Colors.white,
+                                    color: ColorManager.white,
                                     size: 15,
                                   )
                                 : const SizedBox(),

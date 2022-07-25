@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/dependency_container.dart';
@@ -11,6 +14,7 @@ import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart
 import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/swipe_line.dart';
+import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/new_task_tab.dart';
 import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
 
 class AddTask extends StatelessWidget {
@@ -29,15 +33,22 @@ class AddTask extends StatelessWidget {
   }
 }
 
-class AddTaskView extends StatelessWidget {
+class AddTaskView extends StatefulWidget {
   ListesOfHouseEntity liste;
   AddTaskView({Key? key, required this.liste}) : super(key: key);
+
+  @override
+  State<AddTaskView> createState() => _AddTaskViewState();
+}
+
+class _AddTaskViewState extends State<AddTaskView> {
+  List<Widget> customNewWidget = [];
 
   @override
   Widget build(BuildContext context) {
     final addTaskBloc = context.read<AddTaskBloc>();
 
-    addTaskBloc.liste = liste;
+    addTaskBloc.liste = widget.liste;
     return WillPopScope(
       onWillPop: () async {
         addTaskBloc.goBack(context);
@@ -54,6 +65,24 @@ class AddTaskView extends StatelessWidget {
                   : ColorManager.lightGrey),
         ),
         backgroundColor: ColorManager.blue,
+        floatingActionButton: Align(
+          alignment: const Alignment(1, 0.85),
+          child: BlocBuilder<AddTaskBloc, AddTaskState>(
+            builder: (BuildContext context, AddTaskState state) {
+              return SpeedDial(
+                  icon: Icons.add,
+                  activeIcon: Icons.add,
+                  backgroundColor: ColorManager.blue,
+                  useRotationAnimation: true,
+                  animationCurve: Curves.elasticInOut,
+                  animationDuration: const Duration(milliseconds: 300),
+                  foregroundColor: ColorManager.lightGrey,
+                  animationAngle: pi,
+                  elevation: 5.0,
+                  children: NewTaskFAB().getListButton(context));
+            },
+          ),
+        ),
         body: PageHeader(
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
@@ -65,38 +94,7 @@ class AddTaskView extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 maxLines: 1,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Spacer(),
-                  Expanded(
-                    child: CustomTextField(
-                      title: 'Quantite',
-                      controller: addTaskBloc.quantiteController,
-                      keyboardType: TextInputType.number,
-                      maxLength: 8,
-                      textInputAction: TextInputAction.next,
-                      inputFormatter: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      ],
-                      maxLines: 1,
-                    ),
-                    flex: 3,
-                  ),
-                  const Spacer(),
-                  Expanded(
-                    child: CustomTextField(
-                      title: 'Unite',
-                      controller: addTaskBloc.uniteController,
-                      textInputAction: TextInputAction.next,
-                      maxLength: 8,
-                      maxLines: 1,
-                    ),
-                    flex: 3,
-                  ),
-                  const Spacer(),
-                ],
-              ),
+              for (Widget item in customNewWidget) item,
               CustomTextField(
                 title: 'Description',
                 maxLines: 12,
@@ -111,6 +109,42 @@ class AddTaskView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget btnQuantiteEtUnite() {
+    final addTaskBloc = context.read<AddTaskBloc>();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        const Spacer(),
+        Expanded(
+          child: CustomTextField(
+            title: 'Quantite',
+            controller: addTaskBloc.quantiteController,
+            keyboardType: TextInputType.number,
+            maxLength: 8,
+            textInputAction: TextInputAction.next,
+            inputFormatter: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
+            maxLines: 1,
+          ),
+          flex: 3,
+        ),
+        const Spacer(),
+        Expanded(
+          child: CustomTextField(
+            title: 'Unite',
+            controller: addTaskBloc.uniteController,
+            textInputAction: TextInputAction.next,
+            maxLength: 8,
+            maxLines: 1,
+          ),
+          flex: 3,
+        ),
+        const Spacer(),
+      ],
     );
   }
 }
@@ -140,7 +174,7 @@ class AddBtn extends StatelessWidget {
       return CustomButton(
         text: 'Save',
         color: ColorManager.blue,
-        fontColor: Colors.white,
+        fontColor: ColorManager.white,
         padding: EdgeInsets.zero,
         onTap: () => bloc.saveTask(context),
       );

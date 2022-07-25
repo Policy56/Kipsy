@@ -13,10 +13,10 @@ class ListFAB extends InterfaceFab {
       SpeedDialChild(
         child: const Icon(
           Icons.post_add,
-          color: Colors.white,
+          color: ColorManager.white,
         ),
         label: 'Create list',
-        backgroundColor: ColorManager.purple,
+        backgroundColor: ColorManager.blue,
         onTap: () => homeBloc.goToAddList(context),
       ),
     ];

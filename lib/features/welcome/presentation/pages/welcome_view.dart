@@ -12,7 +12,7 @@ class WelcomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: ColorManager.purple,
+      backgroundColor: ColorManager.blue,
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -58,12 +58,12 @@ class WelcomeView extends StatelessWidget {
                   children: [
                     const Text(
                       'Welcome to',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(color: ColorManager.white, fontSize: 20),
                     ),
                     Text(
                       'Kipsy'.toUpperCase(),
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: ColorManager.white,
                           fontWeight: FontWeight.w600,
                           fontSize: 60),
                     ),
@@ -71,7 +71,7 @@ class WelcomeView extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'Get Started',
-                  fontColor: Colors.white,
+                  fontColor: ColorManager.white,
                   onTap: () async {
                     // Obtain shared preferences.
                     final prefs = await SharedPreferences.getInstance();

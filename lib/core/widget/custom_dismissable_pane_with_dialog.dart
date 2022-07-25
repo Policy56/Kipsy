@@ -33,7 +33,7 @@ class CustomDismissiblePaneWithDialog extends StatelessWidget {
                     CustomButton(
                         text: 'Delete',
                         color: ColorManager.red,
-                        fontColor: Colors.white,
+                        fontColor: ColorManager.white,
                         width: MediaQuery.of(context).size.width / 3,
                         onTap: () => Navigator.of(context).pop(true)),
                     CustomButton(

@@ -14,19 +14,19 @@ class HomeFAB extends InterfaceFab {
       SpeedDialChild(
         child: const Icon(
           Icons.group_add,
-          color: Colors.white,
+          color: ColorManager.white,
         ),
         label: 'Create group',
-        backgroundColor: ColorManager.purple,
+        backgroundColor: ColorManager.blue,
         onTap: () => homeBloc.goToAddGroup(context),
       ),
       SpeedDialChild(
         child: const Icon(
           Icons.qr_code_scanner,
-          color: Colors.white,
+          color: ColorManager.white,
         ),
         label: 'Add existing group',
-        backgroundColor: ColorManager.purple,
+        backgroundColor: ColorManager.blue,
         onTap: () => homeBloc.goToAddExistingGroup(context),
       ),
     ];

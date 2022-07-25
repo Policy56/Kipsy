@@ -23,10 +23,10 @@ class ShowTasksView extends StatelessWidget {
         tooltip: 'Add new task',
         child: const Icon(
           Icons.add,
-          color: Colors.white,
+          color: ColorManager.white,
         ),
         elevation: 0.0,
-        backgroundColor: ColorManager.purple,
+        backgroundColor: ColorManager.blue,
       ),
       body: Column(
         children: [
@@ -61,7 +61,9 @@ class BottomTabs extends StatelessWidget {
     return BlocBuilder<ShowHousesBloc, ShowHouseState>(
         builder: (BuildContext context, ShowHouseState state) => Container(
               height: 60,
-              color: ThemeManager.isDark(context) ? Colors.black : Colors.white,
+              color: ThemeManager.isDark(context)
+                  ? Colors.black
+                  : ColorManager.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
                 children: homeBloc.tabs
@@ -73,7 +75,7 @@ class BottomTabs extends StatelessWidget {
                             scale: 20,
                             color: e.id == homeBloc.currentPage
                                 ? ThemeManager.isDark(context)
-                                    ? Colors.white
+                                    ? ColorManager.white
                                     : Colors.black
                                 : ThemeManager.isDark(context)
                                     ? Colors.grey[600]

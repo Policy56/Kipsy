@@ -27,7 +27,7 @@ class PageHeader extends StatelessWidget {
                 topLeft: Radius.circular(22), topRight: Radius.circular(22)),
             color: ThemeManager.isDark(context)
                 ? ColorManager.greyColor
-                : Colors.white,
+                : ColorManager.white,
           ),
           child: child,
         ),

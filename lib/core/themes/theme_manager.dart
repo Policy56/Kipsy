@@ -11,16 +11,16 @@ class ThemeManager {
         scaffoldBackgroundColor: Colors.grey[50],
         platform: TargetPlatform.iOS,
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
+            backgroundColor: ColorManager.white,
             elevation: 0.0,
             centerTitle: false,
             titleTextStyle: TextStyle(
-              color: Colors.white,
+              color: ColorManager.white,
               fontSize: 18,
             ),
             iconTheme: IconThemeData(
               size: 30,
-              color: Colors.white,
+              color: ColorManager.white,
             )),
         iconTheme: const IconThemeData(
           size: 30,

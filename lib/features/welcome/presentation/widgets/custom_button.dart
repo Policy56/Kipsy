@@ -37,7 +37,7 @@ class CustomButton extends StatelessWidget {
         color: color ??
             (ThemeManager.isDark(context)
                 ? ColorManager.greyColor
-                : Colors.white),
+                : ColorManager.white),
         padding:
             padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
         shape: RoundedRectangleBorder(
@@ -53,7 +53,7 @@ class CustomButton extends StatelessWidget {
               color: fontColor ??
                   (ThemeManager.isDark(context)
                       ? ColorManager.greyColor
-                      : ColorManager.purple),
+                      : ColorManager.blue),
               fontWeight: FontWeight.w700),
         ),
       ),
@@ -96,7 +96,7 @@ class CustomButtonChildIcon extends StatelessWidget {
         color: color ??
             (ThemeManager.isDark(context)
                 ? ColorManager.greyColor
-                : Colors.white),
+                : ColorManager.white),
         padding:
             padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
         shape: RoundedRectangleBorder(

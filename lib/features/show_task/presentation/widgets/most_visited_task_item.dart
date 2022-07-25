@@ -18,7 +18,9 @@ class MostVisitedTaskItem extends StatelessWidget {
         width: 120,
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            color: ThemeManager.isDark(context) ? Colors.black : Colors.white,
+            color: ThemeManager.isDark(context)
+                ? Colors.black
+                : ColorManager.white,
             boxShadow: ThemeManager.isDark(context)
                 ? []
                 : [
@@ -67,7 +69,7 @@ class MostVisitedTaskItem extends StatelessWidget {
                               Text(
                                 task.titre ?? '',
                                 style: const TextStyle(
-                                    color: Colors.white,
+                                    color: ColorManager.white,
                                     fontWeight: FontWeight.w700),
                               ),
                               Text(
@@ -75,7 +77,7 @@ class MostVisitedTaskItem extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                    color: ColorManager.white, fontSize: 10),
                               ),
                             ],
                           ))

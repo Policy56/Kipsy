@@ -98,7 +98,7 @@ class AddBtn extends StatelessWidget {
       return CustomButton(
         text: 'Save',
         color: ColorManager.blue,
-        fontColor: Colors.white,
+        fontColor: ColorManager.white,
         padding: EdgeInsets.zero,
         onTap: () => bloc.saveHouse(context),
       );

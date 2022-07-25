@@ -33,7 +33,7 @@ import 'package:kipsy/features/show_task/presentation/pages/task_detail.dart';
 import 'package:kipsy/features/show_task/presentation/pages/tasks_of_lists_view.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/home_fab.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/list_fab.dart';
-import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/tasks_fac.dart';
+import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/tasks_fab.dart';
 import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';

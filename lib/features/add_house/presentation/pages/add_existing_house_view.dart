@@ -105,7 +105,7 @@ class AddBtn extends StatelessWidget {
       return CustomButton(
         text: 'Save',
         color: ColorManager.blue,
-        fontColor: Colors.white,
+        fontColor: ColorManager.white,
         padding: EdgeInsets.zero,
         onTap: () => bloc.saveExistingHouse(context),
       );
@@ -137,9 +137,9 @@ class QRBtn extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: CustomButtonChildIcon(
-                childIcon: const Icon(Icons.qr_code, color: Colors.white),
+                childIcon: const Icon(Icons.qr_code, color: ColorManager.white),
                 color: ColorManager.blue,
-                fontColor: Colors.white,
+                fontColor: ColorManager.white,
                 padding: EdgeInsets.zero,
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(

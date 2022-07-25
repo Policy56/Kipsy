@@ -97,7 +97,8 @@ class TaskDetailView extends StatelessWidget {
                               ((task.unite != null) ? task.unite! : "")
                           : "",
                       textAlign: TextAlign.justify,
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                      style: const TextStyle(
+                          color: ColorManager.white, fontSize: 20),
                     )
                   : Container(),
               ((task.unite != null || task.quantite != null) &&

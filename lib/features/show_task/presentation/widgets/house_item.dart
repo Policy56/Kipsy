@@ -28,7 +28,7 @@ class HouseItem extends StatelessWidget {
               //  await askToDeleteDismiss(homeBloc).show(context);
             },
             backgroundColor: ColorManager.red,
-            foregroundColor: Colors.white,
+            foregroundColor: ColorManager.white,
             icon: Icons.delete,
           ),
         ],
@@ -43,7 +43,7 @@ class HouseItem extends StatelessWidget {
             onPressed: (BuildContext? context) =>
                 homeBloc.shareHouse(house, context!),
             backgroundColor: ColorManager.blue,
-            foregroundColor: Colors.white,
+            foregroundColor: ColorManager.white,
             icon: Icons.share,
           ),
         ],
@@ -54,7 +54,9 @@ class HouseItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
-              color: ThemeManager.isDark(context) ? Colors.black : Colors.white,
+              color: ThemeManager.isDark(context)
+                  ? Colors.black
+                  : ColorManager.white,
               boxShadow: ThemeManager.isDark(context)
                   ? []
                   : [
