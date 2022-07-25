@@ -14,7 +14,7 @@ import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart
 import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/swipe_line.dart';
-import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/new_task_tab.dart';
+import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/new_task_fab.dart';
 import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
 
 class AddTask extends StatelessWidget {
@@ -55,60 +55,70 @@ class _AddTaskViewState extends State<AddTaskView> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
+          appBar: AppBar(
+            backgroundColor: ColorManager.blue,
+            leading: IconButton(
+                onPressed: () => addTaskBloc.goBack(context),
+                icon: const Icon(Icons.arrow_back_ios),
+                color: ThemeManager.isDark(context)
+                    ? ColorManager.lightGrey
+                    : ColorManager.lightGrey),
+          ),
           backgroundColor: ColorManager.blue,
-          leading: IconButton(
-              onPressed: () => addTaskBloc.goBack(context),
-              icon: const Icon(Icons.arrow_back_ios),
-              color: ThemeManager.isDark(context)
-                  ? ColorManager.lightGrey
-                  : ColorManager.lightGrey),
-        ),
-        backgroundColor: ColorManager.blue,
-        floatingActionButton: Align(
-          alignment: const Alignment(1, 0.85),
-          child: BlocBuilder<AddTaskBloc, AddTaskState>(
-            builder: (BuildContext context, AddTaskState state) {
-              return SpeedDial(
-                  icon: Icons.add,
-                  activeIcon: Icons.add,
-                  backgroundColor: ColorManager.blue,
-                  useRotationAnimation: true,
-                  animationCurve: Curves.elasticInOut,
-                  animationDuration: const Duration(milliseconds: 300),
-                  foregroundColor: ColorManager.lightGrey,
-                  animationAngle: pi,
-                  elevation: 5.0,
-                  children: NewTaskFAB().getListButton(context));
-            },
+          floatingActionButton: Align(
+            alignment: const Alignment(1, 0.85),
+            child: BlocBuilder<AddTaskBloc, AddTaskState>(
+              builder: (BuildContext context, AddTaskState state) {
+                return SpeedDial(
+                    icon: Icons.add,
+                    activeIcon: Icons.add,
+                    backgroundColor: ColorManager.blue,
+                    useRotationAnimation: true,
+                    animationCurve: Curves.elasticInOut,
+                    animationDuration: const Duration(milliseconds: 300),
+                    foregroundColor: ColorManager.lightGrey,
+                    animationAngle: pi,
+                    elevation: 5.0,
+                    children: NewTaskFAB().getListButton(context));
+              },
+            ),
           ),
-        ),
-        body: PageHeader(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-            children: [
-              const SwipeLine(),
-              CustomTextField(
-                title: 'New task',
-                controller: addTaskBloc.titleController,
-                textInputAction: TextInputAction.next,
-                maxLines: 1,
+          body: BlocBuilder<AddTaskBloc, AddTaskState>(
+              builder: (BuildContext context, AddTaskState state) {
+            customNewWidget = [];
+            if (addTaskBloc.visibilityQteUnit ==
+                true /* && state is AddTypeTask*/) {
+              customNewWidget.add(btnQuantiteEtUnite());
+              addTaskBloc.visibilityQteUnit = null;
+            }
+
+            return PageHeader(
+              child: ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+                children: [
+                  const SwipeLine(),
+                  CustomTextField(
+                    title: 'New task',
+                    controller: addTaskBloc.titleController,
+                    textInputAction: TextInputAction.next,
+                    maxLines: 1,
+                  ),
+                  for (Widget item in customNewWidget) item,
+                  CustomTextField(
+                    title: 'Description',
+                    maxLines: 12,
+                    controller: addTaskBloc.descriptionController,
+                    //textInputAction: TextInputAction.done,
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const AddBtn()
+                ],
               ),
-              for (Widget item in customNewWidget) item,
-              CustomTextField(
-                title: 'Description',
-                maxLines: 12,
-                controller: addTaskBloc.descriptionController,
-                //textInputAction: TextInputAction.done,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              const AddBtn()
-            ],
-          ),
-        ),
-      ),
+            );
+          })),
     );
   }
 
@@ -117,6 +127,27 @@ class _AddTaskViewState extends State<AddTaskView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 40, 0, 10),
+          child: InkWell(
+            child: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.red, width: 2)),
+              child: const Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 18,
+                ),
+              ),
+            ),
+            onTap: () {
+              addTaskBloc.visibilityQteUnit = false;
+            },
+          ),
+        ),
         const Spacer(),
         Expanded(
           child: CustomTextField(

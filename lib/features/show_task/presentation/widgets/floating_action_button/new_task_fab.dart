@@ -26,10 +26,12 @@ class NewTaskFAB extends InterfaceFab {
             Icons.add_task,
             color: ColorManager.white,
           ),
-          label: 'Add tasks',
+          label: 'Add Qte/Unit',
           backgroundColor: ColorManager.blue,
-          onTap: () => null //homeBloc.goToAddTask(context),
-          ),
+          visible: addTaskBloc.visibilityQteUnit != null,
+          onTap: () {
+            addTaskBloc.visibilityQteUnit = true;
+          }),
     ];
   }
 }

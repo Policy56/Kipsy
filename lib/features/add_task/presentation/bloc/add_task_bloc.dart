@@ -21,6 +21,20 @@ class AddTaskBloc extends Cubit<AddTaskState> {
   TextEditingController quantiteController = TextEditingController();
   TextEditingController uniteController = TextEditingController();
 
+  bool? _visibilityQteUnit = false;
+
+  bool? get visibilityQteUnit => _visibilityQteUnit;
+
+  set visibilityQteUnit(bool? value) {
+    _visibilityQteUnit = value;
+
+    if (value == true) {
+      emit(AddTypeTask());
+    } else if (value == false) {
+      emit(RemoveTypeTask());
+    }
+  }
+
   TaskOfListModel get _task => TaskOfListModel(
       titre: titleController.text,
       description: descriptionController.text,

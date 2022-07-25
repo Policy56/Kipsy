@@ -19,3 +19,7 @@ class AddTaskError extends AddTaskState {
   final String? msg;
   AddTaskError(this.msg);
 }
+
+class AddTypeTask extends AddTaskState {}
+
+class RemoveTypeTask extends AddTaskState {}
