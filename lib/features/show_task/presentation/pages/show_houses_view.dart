@@ -15,71 +15,77 @@ class ShowHousesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ShowHousesBloc houseBloc = context.read<ShowHousesBloc>();
-    return Scaffold(
-      appBar: AppBar(
-        leading: BlocBuilder<ShowHousesBloc, ShowHouseState>(
-          builder: (BuildContext context, ShowHouseState state) {
-            return (houseBloc.currentSubPage != 0 && houseBloc.currentPage == 0)
-                ? IconButton(
-                    color: ThemeManager.isDark(context)
-                        ? ColorManager.lightGrey
-                        : ColorManager.blue,
-                    onPressed: () => houseBloc.goBack(context),
-                    icon: const Icon(Icons.arrow_back_ios))
-                : Container();
-          },
-        ),
-        actions: const [ModeSwitcher()],
-      ),
-      floatingActionButton: Align(
-        alignment: const Alignment(1, 0.85),
-        child: BlocBuilder<ShowHousesBloc, ShowHouseState>(
-          builder: (BuildContext context, ShowHouseState state) {
-            if (state is HomeLoaded &&
-                houseBloc.subPage[houseBloc.currentSubPage]
-                    .listFloatingActionButtonFab
-                    .isNotEmptyList(context) &&
-                houseBloc.currentPage == 0) {
-              return SpeedDial(
-                  icon: Icons.add,
-                  activeIcon: Icons.add,
-                  backgroundColor: ColorManager.blue,
-                  useRotationAnimation: true,
-                  animationCurve: Curves.elasticInOut,
-                  animationDuration: const Duration(milliseconds: 300),
-                  foregroundColor: ColorManager.lightGrey,
-                  animationAngle: pi,
-                  elevation: 5.0,
-                  children: houseBloc.subPage[houseBloc.currentSubPage]
-                      .listFloatingActionButtonFab
-                      .getListButton(context));
-            } else {
-              return Container();
-            }
-          },
-        ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
+    return WillPopScope(
+        onWillPop: () async {
+          houseBloc.goBack(context);
+          return false;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: BlocBuilder<ShowHousesBloc, ShowHouseState>(
+              builder: (BuildContext context, ShowHouseState state) {
+                return (houseBloc.currentSubPage != 0 &&
+                        houseBloc.currentPage == 0)
+                    ? IconButton(
+                        color: ThemeManager.isDark(context)
+                            ? ColorManager.lightGrey
+                            : ColorManager.blue,
+                        onPressed: () => houseBloc.goBack(context),
+                        icon: const Icon(Icons.arrow_back_ios))
+                    : Container();
+              },
+            ),
+            actions: const [ModeSwitcher()],
+          ),
+          floatingActionButton: Align(
+            alignment: const Alignment(1, 0.85),
             child: BlocBuilder<ShowHousesBloc, ShowHouseState>(
               builder: (BuildContext context, ShowHouseState state) {
-                if (state is HomeLoaded) {
-                  return houseBloc.tabs[houseBloc.currentPage].view!;
-                } else if (state is HomeError) {
-                  return Center(child: Text(state.msg ?? ''));
+                if (state is HomeLoaded &&
+                    houseBloc.subPage[houseBloc.currentSubPage]
+                        .listFloatingActionButtonFab
+                        .isNotEmptyList(context) &&
+                    houseBloc.currentPage == 0) {
+                  return SpeedDial(
+                      icon: Icons.add,
+                      activeIcon: Icons.add,
+                      backgroundColor: ColorManager.blue,
+                      useRotationAnimation: true,
+                      animationCurve: Curves.elasticInOut,
+                      animationDuration: const Duration(milliseconds: 300),
+                      foregroundColor: ColorManager.lightGrey,
+                      animationAngle: pi,
+                      elevation: 5.0,
+                      children: houseBloc.subPage[houseBloc.currentSubPage]
+                          .listFloatingActionButtonFab
+                          .getListButton(context));
+                } else {
+                  return Container();
                 }
-
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
               },
             ),
           ),
-          const BottomTabs()
-        ],
-      ),
-    );
+          body: Column(
+            children: [
+              Expanded(
+                child: BlocBuilder<ShowHousesBloc, ShowHouseState>(
+                  builder: (BuildContext context, ShowHouseState state) {
+                    if (state is HomeLoaded) {
+                      return houseBloc.tabs[houseBloc.currentPage].view!;
+                    } else if (state is HomeError) {
+                      return Center(child: Text(state.msg ?? ''));
+                    }
+
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
+              ),
+              const BottomTabs()
+            ],
+          ),
+        ));
   }
 }
 

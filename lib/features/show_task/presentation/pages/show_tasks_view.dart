@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
@@ -12,43 +12,47 @@ class ShowTasksView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ShowHousesBloc homeBloc = context.read<ShowHousesBloc>();
-    return Scaffold(
-      appBar: AppBar(
-        actions: const [ModeSwitcher()],
-      ),
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: () async => null, //homeBloc.goToAddTask(context),
-        enableFeedback: true,
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        tooltip: 'Add new task',
-        child: const Icon(
-          Icons.add,
-          color: ColorManager.white,
-        ),
-        elevation: 0.0,
-        backgroundColor: ColorManager.blue,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: BlocBuilder<ShowHousesBloc, ShowHouseState>(
-              builder: (BuildContext context, ShowHouseState state) {
-                if (state is HomeLoaded) {
-                  return homeBloc.tabs[homeBloc.currentPage].view!;
-                } else if (state is HomeError) {
-                  return Center(child: Text(state.msg ?? ''));
-                }
-
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
+    return WillPopScope(
+        onWillPop: () async {
+          return true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            actions: const [ModeSwitcher()],
           ),
-          const BottomTabs()
-        ],
-      ),
-    );
+          floatingActionButton: FloatingActionButton.small(
+            onPressed: () async => null, //homeBloc.goToAddTask(context),
+            enableFeedback: true,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            tooltip: 'Add new task',
+            child: const Icon(
+              Icons.add,
+              color: ColorManager.white,
+            ),
+            elevation: 0.0,
+            backgroundColor: ColorManager.blue,
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: BlocBuilder<ShowHousesBloc, ShowHouseState>(
+                  builder: (BuildContext context, ShowHouseState state) {
+                    if (state is HomeLoaded) {
+                      return homeBloc.tabs[homeBloc.currentPage].view!;
+                    } else if (state is HomeError) {
+                      return Center(child: Text(state.msg ?? ''));
+                    }
+
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
+              ),
+              const BottomTabs()
+            ],
+          ),
+        ));
   }
 }
 
@@ -87,3 +91,5 @@ class BottomTabs extends StatelessWidget {
             ));
   }
 }
+
+*/
