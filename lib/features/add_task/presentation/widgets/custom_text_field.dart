@@ -57,6 +57,7 @@ class CustomTextField extends StatelessWidget {
               Expanded(
                 flex: 6,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   controller: controller,
                   cursorColor: ThemeManager.isDark(context)
                       ? ColorManager.lightGrey2

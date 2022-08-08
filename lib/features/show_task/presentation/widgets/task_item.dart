@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
-import 'package:kipsy/core/time/time_format.dart';
 import 'package:kipsy/core/widget/custom_dismissable_pane_with_dialog.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/show_task/presentation/bloc/show_houses_bloc.dart';
@@ -89,49 +88,55 @@ class TaskItem extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          task.titre ?? '',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16),
-                        ),
-                        Text(
-                          TimeFormat.instance
-                              .formatDate(dayNameWithTime, task.dateTime!),
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                      ],
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            task.titre ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 16),
+                          ),
+                          /*Text(
+                            TimeFormat.instance
+                                .formatDate(dayNameWithTime, task.dateTime!),
+                            style: const TextStyle(color: Colors.grey),
+                          ),*/
+                        ],
+                      ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          (task.unite != null || task.quantite != null)
-                              ? ((task.quantite != null && task.quantite! > 0)
-                                      ? task.quantite!.toString()
-                                      : "") +
-                                  ((task.unite != null) ? task.unite! : "")
-                              : "",
-                          /*+
-                                      ((task.unite != null)
-                                          ? "task.unite!.toString()"
-                                          : "")*/
+                    Expanded(
+                      flex: (task.unite != "" || task.quantite != 0) ? 1 : 0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            (task.unite != null || task.quantite != null)
+                                ? ((task.quantite != null && task.quantite! > 0)
+                                        ? task.quantite!.toString()
+                                        : "") +
+                                    ((task.unite != null) ? task.unite! : "")
+                                : "",
+                            /*+
+                                        ((task.unite != null)
+                                            ? "task.unite!.toString()"
+                                            : "")*/
 
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16),
-                        ),
-                        Text(
-                          task.description ?? "",
-                          style: const TextStyle(color: Colors.grey),
-                          overflow: TextOverflow.fade,
-                        ),
-                      ],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 16),
+                          ),
+                          Text(
+                            task.description ?? "",
+                            style: const TextStyle(color: Colors.grey),
+                            overflow: TextOverflow.fade,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
