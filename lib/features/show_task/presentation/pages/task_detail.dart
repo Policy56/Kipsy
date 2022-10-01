@@ -33,6 +33,7 @@ class TaskDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeBloc = context.read<ShowHousesBloc>();
     TaskOfListEntity task =
         ModalRoute.of(context)!.settings.arguments as TaskOfListEntity;
     return WillPopScope(
@@ -43,18 +44,14 @@ class TaskDetailView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: ColorManager.pink,
-          actions: const [
-            /*
-            // TODO(ccl): a ajouter la modification de taches
+          actions: [
             IconButton(
-                onPressed: () => showToast(
-                    context,
-                    TaskToastModel
-                        .editTaskNotImplemented), //goBack(context, task),
+                onPressed: () => homeBloc.goToModifyTask(
+                    context, task), //goBack(context, task),
                 icon: const Icon(Icons.edit),
                 color: ThemeManager.isDark(context)
                     ? ColorManager.lightGrey
-                    : ColorManager.blue)*/
+                    : ColorManager.blue)
           ],
           leading: IconButton(
               onPressed: () => goBack(context, task),
@@ -97,8 +94,7 @@ class TaskDetailView extends StatelessWidget {
                               ((task.unite != null) ? task.unite! : "")
                           : "",
                       textAlign: TextAlign.justify,
-                      style: const TextStyle(
-                          color: ColorManager.white, fontSize: 20),
+                      style: const TextStyle(fontSize: 20),
                     )
                   : Container(),
               ((task.unite != null || task.quantite != null) &&
@@ -150,11 +146,11 @@ class TaskStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<ShowHousesBloc>();
+    final homeBloc = context.read<ShowHousesBloc>();
     return BlocBuilder<ShowHousesBloc, ShowHouseState>(
         builder: (BuildContext context, ShowHouseState state) => InkWell(
               onTap: () {
-                homeCubit.setTaskDone(task);
+                homeBloc.setTaskDone(task);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),

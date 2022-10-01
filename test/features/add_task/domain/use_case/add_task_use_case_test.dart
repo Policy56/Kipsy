@@ -5,10 +5,11 @@ import 'package:kipsy/core/error/failure.dart';
 import 'package:kipsy/core/use_case/use_case.dart';
 import 'package:kipsy/features/add_task/data/model/task_model.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
-import 'package:kipsy/features/add_task/domain/repositiory/add_task_repository.dart';
+import 'package:kipsy/features/add_task/domain/repositiory/add_and_modify_task_repository.dart';
 import 'package:kipsy/features/add_task/domain/use_case/add_task_use_case.dart';
 
-class MockAddTaskRepository extends Mock implements AddTaskRepository {}
+class MockAddTaskRepository extends Mock implements AddAndModifyTaskRepository {
+}
 
 void main() {
   MockAddTaskRepository? repository;

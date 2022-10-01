@@ -1,25 +1,25 @@
 import 'package:equatable/equatable.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 
-abstract class AddTaskState extends Equatable {
+abstract class AddAndModifyTaskState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class AddTaskEmpty extends AddTaskState {}
+class AddAndModifyTaskEmpty extends AddAndModifyTaskState {}
 
-class AddTaskLoading extends AddTaskState {}
+class AddAndModifyTaskLoading extends AddAndModifyTaskState {}
 
-class AddTaskLoad extends AddTaskState {
+class AddAndModifyTaskLoad extends AddAndModifyTaskState {
   final TaskOfListEntity? task;
-  AddTaskLoad({this.task});
+  AddAndModifyTaskLoad({this.task});
 }
 
-class AddTaskError extends AddTaskState {
+class AddAndModifyTaskError extends AddAndModifyTaskState {
   final String? msg;
-  AddTaskError(this.msg);
+  AddAndModifyTaskError(this.msg);
 }
 
-class AddTypeTask extends AddTaskState {}
+class AddAndModifyTypeTask extends AddAndModifyTaskState {}
 
-class RemoveTypeTask extends AddTaskState {}
+class RemoveTypeTask extends AddAndModifyTaskState {}

@@ -8,6 +8,7 @@ import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/dependency_container.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_bloc.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_state.dart';
 import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart';
@@ -25,28 +26,75 @@ class AddTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AddTaskBloc(sl()),
-      child: AddTaskView(
+      create: (_) => AddAndModifyTaskBloc(AddOrModifyEnum.modeAdd, sl(), sl()),
+      child: AddAndModifyTaskView(
+        typeOfUseCase: AddOrModifyEnum.modeAdd,
         liste: liste,
+        oldTask: null,
       ),
     );
   }
 }
 
-class AddTaskView extends StatefulWidget {
+class ModifyTask extends StatelessWidget {
   ListesOfHouseEntity liste;
-  AddTaskView({Key? key, required this.liste}) : super(key: key);
+  TaskOfListEntity oldTask;
+
+  ModifyTask({Key? key, required this.liste, required this.oldTask})
+      : super(key: key);
 
   @override
-  State<AddTaskView> createState() => _AddTaskViewState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) =>
+          AddAndModifyTaskBloc(AddOrModifyEnum.modeModify, sl(), sl()),
+      child: AddAndModifyTaskView(
+        typeOfUseCase: AddOrModifyEnum.modeModify,
+        liste: liste,
+        oldTask: oldTask,
+      ),
+    );
+  }
 }
 
-class _AddTaskViewState extends State<AddTaskView> {
+class AddAndModifyTaskView extends StatefulWidget {
+  ListesOfHouseEntity liste;
+  TaskOfListEntity? oldTask;
+
+  AddOrModifyEnum typeOfUseCase;
+  AddAndModifyTaskView(
+      {Key? key,
+      required this.typeOfUseCase,
+      required this.oldTask,
+      required this.liste})
+      : super(key: key);
+
+  @override
+  State<AddAndModifyTaskView> createState() => _AddAndModifyTaskViewState();
+}
+
+class _AddAndModifyTaskViewState extends State<AddAndModifyTaskView> {
   List<Widget> customNewWidget = [];
 
   @override
   Widget build(BuildContext context) {
-    final addTaskBloc = context.read<AddTaskBloc>();
+    final addTaskBloc = context.read<AddAndModifyTaskBloc>();
+
+    if (widget.oldTask != null) {
+      addTaskBloc.titleController.text = widget.oldTask!.titre ?? "";
+      addTaskBloc.descriptionController.text =
+          widget.oldTask!.description ?? "";
+      addTaskBloc.uniteController.text = widget.oldTask!.unite ?? "";
+      addTaskBloc.quantiteController.text = widget.oldTask!.quantite != null
+          ? widget.oldTask!.quantite.toString()
+          : '0';
+
+      if (widget.oldTask!.unite != "" || widget.oldTask!.quantite != 0) {
+        addTaskBloc.visibilityQteUnit = true;
+      }
+
+      addTaskBloc.oldId = widget.oldTask!.id;
+    }
 
     addTaskBloc.liste = widget.liste;
     return WillPopScope(
@@ -67,8 +115,8 @@ class _AddTaskViewState extends State<AddTaskView> {
           backgroundColor: ColorManager.blue,
           floatingActionButton: Align(
             alignment: const Alignment(1, 0.85),
-            child: BlocBuilder<AddTaskBloc, AddTaskState>(
-              builder: (BuildContext context, AddTaskState state) {
+            child: BlocBuilder<AddAndModifyTaskBloc, AddAndModifyTaskState>(
+              builder: (BuildContext context, AddAndModifyTaskState state) {
                 return SpeedDial(
                     icon: Icons.add,
                     activeIcon: Icons.add,
@@ -83,8 +131,8 @@ class _AddTaskViewState extends State<AddTaskView> {
               },
             ),
           ),
-          body: BlocBuilder<AddTaskBloc, AddTaskState>(
-              builder: (BuildContext context, AddTaskState state) {
+          body: BlocBuilder<AddAndModifyTaskBloc, AddAndModifyTaskState>(
+              builder: (BuildContext context, AddAndModifyTaskState state) {
             customNewWidget = [];
             if (addTaskBloc.visibilityQteUnit ==
                 true /* && state is AddTypeTask*/) {
@@ -114,7 +162,9 @@ class _AddTaskViewState extends State<AddTaskView> {
                   const SizedBox(
                     height: 40,
                   ),
-                  const AddBtn()
+                  AddBtn(
+                    typeOfUseCase: widget.typeOfUseCase,
+                  )
                 ],
               ),
             );
@@ -123,7 +173,7 @@ class _AddTaskViewState extends State<AddTaskView> {
   }
 
   Widget btnQuantiteEtUnite() {
-    final addTaskBloc = context.read<AddTaskBloc>();
+    final addTaskBloc = context.read<AddAndModifyTaskBloc>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -145,6 +195,8 @@ class _AddTaskViewState extends State<AddTaskView> {
             ),
             onTap: () {
               addTaskBloc.visibilityQteUnit = false;
+              addTaskBloc.quantiteController.text = "";
+              addTaskBloc.uniteController.text = "";
             },
           ),
         ),
@@ -181,25 +233,33 @@ class _AddTaskViewState extends State<AddTaskView> {
 }
 
 class AddBtn extends StatelessWidget {
-  const AddBtn({Key? key}) : super(key: key);
+  AddBtn({Key? key, required this.typeOfUseCase}) : super(key: key);
+
+  AddOrModifyEnum typeOfUseCase;
 
   @override
   Widget build(BuildContext context) {
-    AddTaskBloc bloc = context.read<AddTaskBloc>();
-    return BlocConsumer<AddTaskBloc, AddTaskState>(
-        listener: (BuildContext context, AddTaskState state) {
-      if (state is AddTaskLoad) {
+    AddAndModifyTaskBloc bloc = context.read<AddAndModifyTaskBloc>();
+    return BlocConsumer<AddAndModifyTaskBloc, AddAndModifyTaskState>(
+        listener: (BuildContext context, AddAndModifyTaskState state) async {
+      if (state is AddAndModifyTaskLoad) {
         bloc.clearControllers();
+        if (Navigator.of(context).canPop() &&
+            typeOfUseCase == AddOrModifyEnum.modeModify) {
+          await Future<void>.delayed(const Duration(milliseconds: 500));
+
+          bloc.goBack(context);
+        }
         bloc.showToast(context, TaskToastModel.addTaskSuccess);
-      } else if (state is AddTaskError) {
+      } else if (state is AddAndModifyTaskError) {
         bloc.showToast(context, TaskToastModel.addTaskError);
       }
-    }, builder: (BuildContext context, AddTaskState state) {
-      if (state is AddTaskLoading) {
+    }, builder: (BuildContext context, AddAndModifyTaskState state) {
+      if (state is AddAndModifyTaskLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state is AddTaskError) {
+      } else if (state is AddAndModifyTaskError) {
         return Center(child: Text(state.msg ?? ''));
       }
       return CustomButton(
@@ -207,7 +267,9 @@ class AddBtn extends StatelessWidget {
         color: ColorManager.blue,
         fontColor: ColorManager.white,
         padding: EdgeInsets.zero,
-        onTap: () => bloc.saveTask(context),
+        onTap: () => bloc.saveTask(
+          context,
+        ),
       );
     });
   }

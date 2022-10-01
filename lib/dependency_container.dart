@@ -13,9 +13,10 @@ import 'package:kipsy/features/add_list/data/repository/add_list_repository_impl
 import 'package:kipsy/features/add_list/domain/repositiory/add_list_repository.dart';
 import 'package:kipsy/features/add_list/domain/use_case/add_list_use_case.dart';
 import 'package:kipsy/features/add_task/data/data_source/add_tasks_local_data_source.dart';
-import 'package:kipsy/features/add_task/data/repository/add_task_repository_impl.dart';
-import 'package:kipsy/features/add_task/domain/repositiory/add_task_repository.dart';
+import 'package:kipsy/features/add_task/data/repository/add_and_modify_task_repository_impl.dart';
+import 'package:kipsy/features/add_task/domain/repositiory/add_and_modify_task_repository.dart';
 import 'package:kipsy/features/add_task/domain/use_case/add_task_use_case.dart';
+import 'package:kipsy/features/add_task/domain/use_case/modify_task_use_case.dart';
 import 'package:kipsy/features/show_task/data/data_source/show_houses_local_data_source.dart';
 import 'package:kipsy/features/show_task/data/data_source/show_listes_of_house_local_data_source.dart';
 import 'package:kipsy/features/show_task/data/data_source/show_tasks_local_data_source.dart';
@@ -42,6 +43,7 @@ final sl = GetIt.I;
 Future<void> init() async {
   //Use case
   sl.registerLazySingleton(() => AddTaskUseCase(sl()));
+  sl.registerLazySingleton(() => ModifyTaskUseCase(sl()));
   sl.registerLazySingleton(() => AddListUseCase(sl()));
   sl.registerLazySingleton(() => AddHouseUseCase(sl()));
   sl.registerLazySingleton(() => AddExistingHouseUseCase(sl()));
@@ -61,8 +63,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateListesOfHouseUseCase(sl()));
 
   //Repository
-  sl.registerLazySingleton<AddTaskRepository>(
-      () => AddTaskRepositoryImpl(localSource: sl()));
+  sl.registerLazySingleton<AddAndModifyTaskRepository>(
+      () => AddAndModifyTaskRepositoryImpl(localSource: sl()));
 
   sl.registerLazySingleton<AddListRepository>(
       () => AddListRepositoryImpl(localSource: sl()));
@@ -83,8 +85,8 @@ Future<void> init() async {
       () => ShowHouseRepositoryImpl(sl()));
 
   //Data Source
-  sl.registerLazySingleton<AddTasksLocalDataSource>(
-      () => AddTasksLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<AddAndModifyTasksLocalDataSource>(
+      () => AddAndModifyTasksLocalDataSourceImpl(sl()));
   sl.registerLazySingleton<AddListsLocalDataSource>(
       () => AddListsLocalDataSourceImpl(sl()));
   sl.registerLazySingleton<AddHousesLocalDataSource>(

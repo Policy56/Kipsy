@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
+import 'package:kipsy/features/add_task/domain/use_case/modify_task_use_case.dart';
 import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
@@ -10,11 +11,22 @@ import 'package:kipsy/features/add_task/data/model/task_model.dart';
 import 'package:kipsy/features/add_task/domain/use_case/add_task_use_case.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_state.dart';
 
-class AddTaskBloc extends Cubit<AddTaskState> {
-  final AddTaskUseCase addTaskUseCase;
-  late ListesOfHouseEntity liste;
+enum AddOrModifyEnum {
+  modeAdd,
+  modeModify,
+}
 
-  AddTaskBloc(this.addTaskUseCase) : super(AddTaskEmpty());
+class AddAndModifyTaskBloc extends Cubit<AddAndModifyTaskState> {
+  final AddTaskUseCase? addTaskUseCase;
+  final ModifyTaskUseCase? modifyTaskUseCase;
+  final AddOrModifyEnum typeOfUseCase;
+
+  late ListesOfHouseEntity liste;
+  late String? oldId;
+
+  AddAndModifyTaskBloc(
+      this.typeOfUseCase, this.addTaskUseCase, this.modifyTaskUseCase)
+      : super(AddAndModifyTaskEmpty());
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -29,7 +41,7 @@ class AddTaskBloc extends Cubit<AddTaskState> {
     _visibilityQteUnit = value;
 
     if (value == true) {
-      emit(AddTypeTask());
+      emit(AddAndModifyTypeTask());
     } else if (value == false) {
       emit(RemoveTypeTask());
     }
@@ -43,7 +55,8 @@ class AddTaskBloc extends Cubit<AddTaskState> {
       dateTime: DateTime.now(),
       quantite: int.tryParse(quantiteController.text) ?? 0,
       unite: uniteController.text,
-      list: liste.id);
+      list: liste.id,
+      id: oldId);
 
   bool get validateInputs =>
       titleController.text.isEmpty /*|| descriptionController.text.isEmpty*/;
@@ -54,10 +67,17 @@ class AddTaskBloc extends Cubit<AddTaskState> {
       return;
     }
 
-    emit(AddTaskLoading());
-    (await addTaskUseCase.call(AddTaskParam(_task))).fold(
-        (error) => emit(AddTaskError(error.msg)),
-        (task) => emit(AddTaskLoad(task: task)));
+    emit(AddAndModifyTaskLoading());
+    if (typeOfUseCase == AddOrModifyEnum.modeAdd && addTaskUseCase != null) {
+      (await addTaskUseCase!.call(AddTaskParam(_task))).fold(
+          (error) => emit(AddAndModifyTaskError(error.msg)),
+          (task) => emit(AddAndModifyTaskLoad(task: task)));
+    } else if (typeOfUseCase == AddOrModifyEnum.modeModify &&
+        modifyTaskUseCase != null) {
+      (await modifyTaskUseCase!.call(AddTaskParam(_task))).fold(
+          (error) => emit(AddAndModifyTaskError(error.msg)),
+          (task) => emit(AddAndModifyTaskLoad(task: task)));
+    }
   }
 
   void clearControllers() {

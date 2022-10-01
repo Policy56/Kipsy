@@ -3,19 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:kipsy/features/add_task/data/data_source/add_tasks_local_data_source.dart';
 import 'package:kipsy/features/add_task/data/model/task_model.dart';
-import 'package:kipsy/features/add_task/data/repository/add_task_repository_impl.dart';
-import 'package:kipsy/features/add_task/domain/repositiory/add_task_repository.dart';
+import 'package:kipsy/features/add_task/data/repository/add_and_modify_task_repository_impl.dart';
+import 'package:kipsy/features/add_task/domain/repositiory/add_and_modify_task_repository.dart';
 
 class MockAddTaskLocalDataSource extends Mock
-    implements AddTasksLocalDataSource {}
+    implements AddAndModifyTasksLocalDataSource {}
 
 void main() {
   MockAddTaskLocalDataSource? _localSource;
-  AddTaskRepository? _repository;
+  AddAndModifyTaskRepository? _repository;
 
   setUp(() {
     _localSource = MockAddTaskLocalDataSource();
-    _repository = AddTaskRepositoryImpl(localSource: _localSource);
+    _repository = AddAndModifyTaskRepositoryImpl(localSource: _localSource);
   });
 
   final tTaskOfListModel = TaskOfListModel(

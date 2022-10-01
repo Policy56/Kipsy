@@ -4,12 +4,12 @@ import 'package:kipsy/core/use_case/use_case.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/add_task/domain/repositiory/add_and_modify_task_repository.dart';
 
-class AddTaskUseCase extends UseCase<TaskOfListEntity, AddTaskParam> {
+class ModifyTaskUseCase extends UseCase<TaskOfListEntity, AddTaskParam> {
   final AddAndModifyTaskRepository _repository;
-  AddTaskUseCase(this._repository);
+  ModifyTaskUseCase(this._repository);
 
   @override
   Future<Either<Failure, TaskOfListEntity>> call(AddTaskParam params) {
-    return _repository.addTask(params.taskOfListEntity!);
+    return _repository.modifyTask(params.taskOfListEntity!);
   }
 }

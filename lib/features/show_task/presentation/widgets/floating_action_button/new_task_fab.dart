@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class NewTaskFAB extends InterfaceFab {
   @override
   List<SpeedDialChild> getListButton(BuildContext context) {
-    AddTaskBloc addTaskBloc = context.read<AddTaskBloc>();
+    AddAndModifyTaskBloc addTaskBloc = context.read<AddAndModifyTaskBloc>();
     return [
       // TODO(ccl): ajouter d'autres types de taches
       /*

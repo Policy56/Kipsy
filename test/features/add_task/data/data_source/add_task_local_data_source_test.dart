@@ -9,11 +9,11 @@ class MockDatabase extends Mock implements DbService {}
 
 void main() {
   MockDatabase? databaseService;
-  AddTasksLocalDataSource? _localSource;
+  AddAndModifyTasksLocalDataSource? _localSource;
 
   setUp(() {
     databaseService = MockDatabase();
-    _localSource = AddTasksLocalDataSourceImpl(databaseService!);
+    _localSource = AddAndModifyTasksLocalDataSourceImpl(databaseService!);
   });
 
   final tTaskOfListModel = TaskOfListModel(

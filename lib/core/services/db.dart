@@ -46,12 +46,14 @@ class DbService {
 
   Future<int> updateTask(TaskOfListEntity task) async {
     await FirebaseFirestore.instance.collection("items").doc(task.id).update({
-      "done": task.isDone,
-      "description": task.description,
       "titre": task.titre,
+      "list": task.list,
+      "description": task.description,
       "quantite": task.quantite,
+      "done": task.isDone,
+      "views": task.views,
+      "dateTime": task.dateTime,
       "unite": task.unite,
-      "views": task.views
     });
     return 1;
   }
@@ -231,5 +233,26 @@ class DbService {
         .collection("items")
         .doc(taskOfListEntity.id)
         .delete();
+  }
+
+  Future<TaskOfListModel> getTasks(TaskOfListEntity task) async {
+    DocumentSnapshot<Map<String, dynamic>> taskGet;
+
+    taskGet =
+        await FirebaseFirestore.instance.collection('items').doc(task.id).get();
+    TaskOfListModel taskOfListModel = TaskOfListModel(
+        id: taskGet.id,
+        titre: taskGet.data()!["titre"] ?? '',
+        list: taskGet.data()!["list"] ?? '',
+        description: taskGet.data()!["description"] ?? "",
+        quantite: taskGet.data()!["quantite"] ?? 0,
+        unite: taskGet.data()!["unite"] ?? "",
+        isDone: taskGet.data()!["done"] ?? false,
+        views: taskGet.data()!["views"] ?? 0,
+        dateTime: taskGet.data()!["dateTime"] != null &&
+                taskGet.data()!["dateTime"] is Timestamp
+            ? (taskGet.data()!["dateTime"] as Timestamp).toDate()
+            : DateTime.now());
+    return taskOfListModel;
   }
 }
