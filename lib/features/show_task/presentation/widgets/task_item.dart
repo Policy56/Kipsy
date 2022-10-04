@@ -57,7 +57,11 @@ class TaskItem extends StatelessWidget {
               BlocBuilder<ShowHousesBloc, ShowHouseState>(
                   builder: (BuildContext context, ShowHouseState state) =>
                       InkWell(
-                        onTap: () => homeBloc.setTaskDone(task),
+                        onTap: () {
+                          homeBloc.setTaskDone(task);
+                          homeBloc.updateLists();
+                          homeBloc.updateTask(task);
+                        },
                         child: Container(
                           width: 35,
                           height: 35,

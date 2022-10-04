@@ -80,7 +80,7 @@ class AddBtn extends StatelessWidget {
       if (state is AddHouseLoad) {
         bloc.clearControllers();
         if (Navigator.of(context).canPop()) {
-          await Future<void>.delayed(const Duration(milliseconds: 500));
+          await Future<void>.delayed(const Duration(milliseconds: 200));
           bloc.goBack(context);
         }
         bloc.showToast(context, HouseToastModel.addHouseSuccess);

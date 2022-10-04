@@ -9,7 +9,7 @@ import 'package:kipsy/core/themes/theme_manager.dart';
 import 'package:kipsy/dependency_container.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
-import 'package:kipsy/features/add_task/presentation/bloc/add_task_bloc.dart';
+import 'package:kipsy/features/add_task/presentation/bloc/add_modif_task_bloc.dart';
 import 'package:kipsy/features/add_task/presentation/bloc/add_task_state.dart';
 import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.dart';
@@ -29,7 +29,7 @@ class AddTask extends StatelessWidget {
       create: (_) => AddAndModifyTaskBloc(AddOrModifyEnum.modeAdd, sl(), sl()),
       child: AddAndModifyTaskView(
         typeOfUseCase: AddOrModifyEnum.modeAdd,
-        liste: liste,
+        listeId: liste.id!,
         oldTask: null,
       ),
     );
@@ -37,10 +37,10 @@ class AddTask extends StatelessWidget {
 }
 
 class ModifyTask extends StatelessWidget {
-  ListesOfHouseEntity liste;
+  String listeId;
   TaskOfListEntity oldTask;
 
-  ModifyTask({Key? key, required this.liste, required this.oldTask})
+  ModifyTask({Key? key, required this.listeId, required this.oldTask})
       : super(key: key);
 
   @override
@@ -50,7 +50,7 @@ class ModifyTask extends StatelessWidget {
           AddAndModifyTaskBloc(AddOrModifyEnum.modeModify, sl(), sl()),
       child: AddAndModifyTaskView(
         typeOfUseCase: AddOrModifyEnum.modeModify,
-        liste: liste,
+        listeId: listeId,
         oldTask: oldTask,
       ),
     );
@@ -58,7 +58,7 @@ class ModifyTask extends StatelessWidget {
 }
 
 class AddAndModifyTaskView extends StatefulWidget {
-  ListesOfHouseEntity liste;
+  String listeId;
   TaskOfListEntity? oldTask;
 
   AddOrModifyEnum typeOfUseCase;
@@ -66,7 +66,7 @@ class AddAndModifyTaskView extends StatefulWidget {
       {Key? key,
       required this.typeOfUseCase,
       required this.oldTask,
-      required this.liste})
+      required this.listeId})
       : super(key: key);
 
   @override
@@ -96,17 +96,17 @@ class _AddAndModifyTaskViewState extends State<AddAndModifyTaskView> {
       addTaskBloc.oldId = widget.oldTask!.id;
     }
 
-    addTaskBloc.liste = widget.liste;
+    addTaskBloc.listeId = widget.listeId;
     return WillPopScope(
       onWillPop: () async {
-        addTaskBloc.goBack(context);
+        addTaskBloc.goBack(context, false);
         return true;
       },
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: ColorManager.blue,
             leading: IconButton(
-                onPressed: () => addTaskBloc.goBack(context),
+                onPressed: () => addTaskBloc.goBack(context, false),
                 icon: const Icon(Icons.arrow_back_ios),
                 color: ThemeManager.isDark(context)
                     ? ColorManager.lightGrey
@@ -246,9 +246,9 @@ class AddBtn extends StatelessWidget {
         bloc.clearControllers();
         if (Navigator.of(context).canPop() &&
             typeOfUseCase == AddOrModifyEnum.modeModify) {
-          await Future<void>.delayed(const Duration(milliseconds: 500));
+          await Future<void>.delayed(const Duration(milliseconds: 200));
 
-          bloc.goBack(context);
+          bloc.goBack(context, true);
         }
         bloc.showToast(context, TaskToastModel.addTaskSuccess);
       } else if (state is AddAndModifyTaskError) {

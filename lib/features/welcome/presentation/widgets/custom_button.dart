@@ -31,19 +31,19 @@ class CustomButton extends StatelessWidget {
     return SizedBox(
       width: width ?? MediaQuery.of(context).size.width,
       height: height ?? 50,
-      child: RaisedButton(
-        elevation: 0.0,
-        highlightElevation: 0.0,
-        color: color ??
-            (ThemeManager.isDark(context)
-                ? ColorManager.greyColor
-                : ColorManager.white),
-        padding:
-            padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-        shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(12),
-            side:
-                BorderSide(color: borderColor ?? Colors.transparent, width: 2)),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: (ThemeManager.isDark(context)
+              ? ColorManager.greyColor
+              : ColorManager.white),
+          padding:
+              padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+              borderRadius: borderRadius ?? BorderRadius.circular(12),
+              side: BorderSide(
+                  color: borderColor ?? Colors.transparent, width: 2)),
+        ),
         onPressed: () {
           onTap!.call();
         },
@@ -90,19 +90,22 @@ class CustomButtonChildIcon extends StatelessWidget {
     return SizedBox(
       width: width ?? MediaQuery.of(context).size.width,
       height: height ?? 50,
-      child: RaisedButton(
-        elevation: 0.0,
-        highlightElevation: 0.0,
-        color: color ??
-            (ThemeManager.isDark(context)
-                ? ColorManager.greyColor
-                : ColorManager.white),
-        padding:
-            padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-        shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(12),
-            side:
-                BorderSide(color: borderColor ?? Colors.transparent, width: 2)),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 0.0,
+          foregroundColor: color ??
+              (ThemeManager.isDark(context)
+                  ? ColorManager.greyColor
+                  : ColorManager.white),
+          //highlightElevation: 0.0,
+          //backgroundColor:
+          padding:
+              padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          shape: RoundedRectangleBorder(
+              borderRadius: borderRadius ?? BorderRadius.circular(12),
+              side: BorderSide(
+                  color: borderColor ?? Colors.transparent, width: 2)),
+        ),
         onPressed: () {
           onTap!.call();
         },

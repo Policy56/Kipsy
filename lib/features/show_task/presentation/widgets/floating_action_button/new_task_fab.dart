@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
-import 'package:kipsy/features/add_task/presentation/bloc/add_task_bloc.dart';
+import 'package:kipsy/features/add_task/presentation/bloc/add_modif_task_bloc.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/interface_fab.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

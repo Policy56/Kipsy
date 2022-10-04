@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
+import 'package:kipsy/core/services/db.dart';
+import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/add_task/domain/use_case/modify_task_use_case.dart';
 import 'package:kipsy/features/add_task/presentation/model/task_toast_model.dart';
+import 'package:kipsy/features/add_task/presentation/pages/add_task_view.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
@@ -14,6 +16,7 @@ import 'package:kipsy/features/add_task/presentation/bloc/add_task_state.dart';
 enum AddOrModifyEnum {
   modeAdd,
   modeModify,
+  modeCheckValue,
 }
 
 class AddAndModifyTaskBloc extends Cubit<AddAndModifyTaskState> {
@@ -21,8 +24,8 @@ class AddAndModifyTaskBloc extends Cubit<AddAndModifyTaskState> {
   final ModifyTaskUseCase? modifyTaskUseCase;
   final AddOrModifyEnum typeOfUseCase;
 
-  late ListesOfHouseEntity liste;
-  late String? oldId;
+  late String? listeId;
+  String? oldId;
 
   AddAndModifyTaskBloc(
       this.typeOfUseCase, this.addTaskUseCase, this.modifyTaskUseCase)
@@ -36,6 +39,7 @@ class AddAndModifyTaskBloc extends Cubit<AddAndModifyTaskState> {
   bool? _visibilityQteUnit = false;
 
   bool? get visibilityQteUnit => _visibilityQteUnit;
+  TaskOfListEntity? selectedTask;
 
   set visibilityQteUnit(bool? value) {
     _visibilityQteUnit = value;
@@ -55,7 +59,7 @@ class AddAndModifyTaskBloc extends Cubit<AddAndModifyTaskState> {
       dateTime: DateTime.now(),
       quantite: int.tryParse(quantiteController.text) ?? 0,
       unite: uniteController.text,
-      list: liste.id,
+      list: listeId,
       id: oldId);
 
   bool get validateInputs =>
@@ -78,6 +82,24 @@ class AddAndModifyTaskBloc extends Cubit<AddAndModifyTaskState> {
           (error) => emit(AddAndModifyTaskError(error.msg)),
           (task) => emit(AddAndModifyTaskLoad(task: task)));
     }
+  }
+
+  Future<void> goToModifyTask(
+      BuildContext context, TaskOfListEntity oldTask) async {
+    //Navigate
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(
+        builder: (_) => ModifyTask(
+              listeId: oldTask.list!,
+              oldTask: oldTask,
+            ),
+        settings: RouteSettings(arguments: oldTask));
+    await Navigator.of(context).push(materialPageRoute);
+
+    emit(AddAndModifyTaskLoading());
+    selectedTask = await DbService().getTasks(oldTask);
+    emit(AddAndModifyTaskLoad());
+
+    //getAllTasks();
   }
 
   void clearControllers() {
@@ -103,7 +125,7 @@ class AddAndModifyTaskBloc extends Cubit<AddAndModifyTaskState> {
 
   TextStyle get testStyle => const TextStyle(color: ColorManager.greyColor);
 
-  void goBack(BuildContext context) {
+  void goBack(BuildContext context, bool hasBeenModified) {
     Navigator.pop(context);
   }
 }

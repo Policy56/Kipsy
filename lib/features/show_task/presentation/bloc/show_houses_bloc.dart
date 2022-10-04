@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kipsy/core/services/db.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/use_case/use_case.dart';
 import 'package:kipsy/features/add_house/domain/entity/house.dart';
@@ -12,7 +11,6 @@ import 'package:kipsy/features/add_house/presentation/pages/add_existing_house_v
 import 'package:kipsy/features/add_house/presentation/pages/add_house_view.dart';
 import 'package:kipsy/features/add_list/domain/entity/list_of_house.dart';
 import 'package:kipsy/features/add_list/presentation/pages/add_list_view.dart';
-import 'package:kipsy/features/add_task/data/model/task_model.dart';
 import 'package:kipsy/features/add_task/domain/entity/task_of_list.dart';
 import 'package:kipsy/features/add_task/presentation/pages/add_task_view.dart';
 import 'package:kipsy/features/show_task/domain/use_case/all_houses_use_case.dart';
@@ -110,8 +108,10 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
     } else {
       task.isDone = false;
     }
-    updateLists();
+
     updateTask(task);
+    getTaskOfListes();
+    //   updateLists();
   }
 
   /*void goToAddHouse(BuildContext context) async {
@@ -143,15 +143,14 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
     currentSubPage = 2;
     selectedListe = list;
     //Update
-    await getTaskOfListes(list);
+    await getTaskOfListes();
     emit(HomeLoaded());
   }
 
   void goToTaskDetail(BuildContext context, TaskOfListEntity task) async {
     task.views = task.views + 1;
     //Navigate
-    final result =
-        await navigateToTaskDetail(context, task) as TaskOfListEntity;
+    final result = await navigateToTaskDetail(context, task);
     //Update
     update(result);
   }
@@ -198,37 +197,15 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
               liste: selectedListe!,
             ));
     await Navigator.of(context).push(materialPageRoute);
-    //Update
-    getTaskOfListes(selectedListe!);
-    //getAllTasks();
-  }
-
-  void goToModifyTask(BuildContext context, TaskOfListEntity oldTask) async {
-    //Navigate
-    MaterialPageRoute materialPageRoute = MaterialPageRoute(
-        builder: (_) => ModifyTask(
-              liste: selectedListe!,
-              oldTask: oldTask,
-            ),
-        settings: RouteSettings(arguments: oldTask));
-    await Navigator.of(context).push(materialPageRoute);
-    //Update
-    getTaskOfListes(selectedListe!);
-
-    emit(HomeLoading());
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
-    TaskOfListModel newTask = await DbService().getTasks(oldTask);
-    goToTaskDetail(context, newTask);
-    emit(HomeLoaded());
-
+    //
+    getTaskOfListes();
     //getAllTasks();
   }
 
   Future navigateToTaskDetail(
       BuildContext context, TaskOfListEntity task) async {
     MaterialPageRoute materialPageRoute = MaterialPageRoute(
-        builder: (_) => const TaskDetailView(),
+        builder: (_) => const TaskDetail(),
         settings: RouteSettings(arguments: task));
     return await Navigator.of(context).push(materialPageRoute);
   }
@@ -316,14 +293,15 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
         emit(HomeLoaded());
       });
 
-  Future<void> getTaskOfListes(ListesOfHouseEntity selectedlist) async =>
-      (await _getTasksOfListUseCase(
-              ListesOfHouseParams(listesOfHouseEntity: selectedlist)))
-          .fold((e) => emit(HomeError(e.msg)), (tasksOfList) {
-        this.tasksOfList = tasksOfList;
-        updateLists();
-        emit(HomeLoaded());
-      });
+  Future<void> getTaskOfListes() async {
+    (await _getTasksOfListUseCase(
+            ListesOfHouseParams(listesOfHouseEntity: selectedListe)))
+        .fold((e) => emit(HomeError(e.msg)), (tasksOfList) {
+      this.tasksOfList = tasksOfList;
+      updateLists();
+      emit(HomeLoaded());
+    });
+  }
 
   Future<void> deleteHouse(HouseEntity house) async =>
       (await _deleteHouse(HouseParams(houseEntity: house)))

@@ -96,7 +96,7 @@ class AddBtn extends StatelessWidget {
       if (state is AddListLoad) {
         addListBloc.clearControllers();
         if (Navigator.of(context).canPop()) {
-          await Future<void>.delayed(const Duration(milliseconds: 500));
+          await Future<void>.delayed(const Duration(milliseconds: 200));
           addListBloc.goBack(context);
         }
         addListBloc.showToast(context, ListToastModel.addListSuccess);
