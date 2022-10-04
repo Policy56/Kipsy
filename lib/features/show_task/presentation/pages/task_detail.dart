@@ -65,7 +65,7 @@ class TaskDetailView extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: ColorManager.pink,
+            backgroundColor: ColorManager.blue,
             actions: [
               IconButton(
                   onPressed: () async {
@@ -75,19 +75,16 @@ class TaskDetailView extends StatelessWidget {
                     await homeBloc.getTaskOfListes();
                   }, //goBack(context, task),
                   icon: const Icon(Icons.edit),
-                  color: ThemeManager.isDark(context)
-                      ? ColorManager.lightGrey
-                      : ColorManager.blue)
+                  color: ColorManager.lightGrey)
             ],
             leading: IconButton(
-                onPressed: () =>
-                    goBack(context, addOrModifyTaskBloc.selectedTask!),
-                icon: const Icon(Icons.arrow_back_ios),
-                color: ThemeManager.isDark(context)
-                    ? ColorManager.lightGrey
-                    : ColorManager.blue),
+              onPressed: () =>
+                  goBack(context, addOrModifyTaskBloc.selectedTask!),
+              icon: const Icon(Icons.arrow_back_ios),
+              color: ColorManager.lightGrey,
+            ),
           ),
-          backgroundColor: ColorManager.pink,
+          backgroundColor: ColorManager.blue,
           body: PageHeader(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
@@ -210,8 +207,8 @@ class TaskStatus extends StatelessWidget {
                 child: Center(
                   child: Text(
                     task.isDone == false
-                        ? 'in progress'.toUpperCase()
-                        : 'done'.toUpperCase(),
+                        ? "in progress".toUpperCase()
+                        : "done".toUpperCase(),
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: task.isDone == false

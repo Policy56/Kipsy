@@ -96,31 +96,63 @@ class BottomTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     ShowHousesBloc homeBloc = context.read<ShowHousesBloc>();
     return BlocBuilder<ShowHousesBloc, ShowHouseState>(
-        builder: (BuildContext context, ShowHouseState state) => Container(
+        builder: (BuildContext context, ShowHouseState state) {
+      if (state is HomeLoaded) {
+        if (homeBloc.currentSubPage > 0) {
+          return Container(
+            height: 60,
+            color: ThemeManager.isDark(context)
+                ? Colors.black
+                : ColorManager.white,
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              children: homeBloc.tabs
+                  .map((e) => Expanded(
+                          child: InkWell(
+                        onTap: () => homeBloc.changeActiveTab(e.id!),
+                        child: Image.asset(
+                          'assets/images/' + e.imgName! + '.png',
+                          scale: 20,
+                          color: e.id == homeBloc.currentPage
+                              ? ThemeManager.isDark(context)
+                                  ? ColorManager.white
+                                  : Colors.black
+                              : ThemeManager.isDark(context)
+                                  ? Colors.grey[600]
+                                  : Colors.grey[300],
+                        ),
+                      )))
+                  .toList(),
+            ),
+          );
+        } else {
+          return Container(
               height: 60,
               color: ThemeManager.isDark(context)
                   ? Colors.black
                   : ColorManager.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Row(
-                children: homeBloc.tabs
-                    .map((e) => Expanded(
-                            child: InkWell(
-                          onTap: () => homeBloc.changeActiveTab(e.id!),
-                          child: Image.asset(
-                            'assets/images/' + e.imgName! + '.png',
-                            scale: 20,
-                            color: e.id == homeBloc.currentPage
-                                ? ThemeManager.isDark(context)
-                                    ? ColorManager.white
-                                    : Colors.black
-                                : ThemeManager.isDark(context)
-                                    ? Colors.grey[600]
-                                    : Colors.grey[300],
-                          ),
-                        )))
-                    .toList(),
-              ),
-            ));
+              child: Expanded(
+                  child: InkWell(
+                onTap: () => homeBloc.changeActiveTab(homeBloc.tabs[0].id!),
+                child: Image.asset(
+                  'assets/images/' + homeBloc.tabs[0].imgName! + '.png',
+                  scale: 20,
+                  color: homeBloc.tabs[0].id == homeBloc.currentPage
+                      ? ThemeManager.isDark(context)
+                          ? ColorManager.white
+                          : Colors.black
+                      : ThemeManager.isDark(context)
+                          ? Colors.grey[600]
+                          : Colors.grey[300],
+                ),
+              )));
+        }
+      } else {
+        return const Center(
+          child: LinearProgressIndicator(),
+        );
+      }
+    });
   }
 }

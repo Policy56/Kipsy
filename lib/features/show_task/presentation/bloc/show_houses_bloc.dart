@@ -27,7 +27,7 @@ import 'package:kipsy/features/show_task/presentation/model/sub_tab_model.dart';
 import 'package:kipsy/features/show_task/presentation/model/tab_model.dart';
 import 'package:kipsy/features/show_task/presentation/pages/all_houses_view.dart';
 import 'package:kipsy/features/show_task/presentation/pages/all_listes_view.dart';
-import 'package:kipsy/features/show_task/presentation/pages/done_tasks_view.dart';
+import 'package:kipsy/features/house_settings/presentation/pages/house_settings_view.dart';
 import 'package:kipsy/features/show_task/presentation/pages/house_list_task_view.dart';
 import 'package:kipsy/features/show_task/presentation/pages/task_detail.dart';
 import 'package:kipsy/features/show_task/presentation/pages/tasks_of_lists_view.dart';
@@ -71,7 +71,7 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
   List<TabModel> tabs = [
     const TabModel(id: 0, imgName: 'home', view: HouseListTaskView()),
     //const TabModel(id: 1, imgName: 'home', view: AllTasks()),
-    const TabModel(id: 1, imgName: 'check-mark', view: DoneTasks()),
+    const TabModel(id: 1, imgName: 'settings', view: HouseSettingsView()),
   ];
 
   List<SubTabModel> subPage = [
