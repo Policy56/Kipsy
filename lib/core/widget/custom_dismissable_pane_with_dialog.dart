@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
-import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
+import 'package:kipsy/core/widget/custom_button.dart';
 
 class CustomDismissiblePaneWithDialog extends StatelessWidget {
   CustomDismissiblePaneWithDialog(

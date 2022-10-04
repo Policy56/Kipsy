@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/features/show_task/presentation/pages/show_houses_view.dart';
-import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
+import 'package:kipsy/core/widget/custom_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeView extends StatelessWidget {

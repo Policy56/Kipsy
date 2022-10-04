@@ -16,7 +16,7 @@ import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.d
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/swipe_line.dart';
 import 'package:kipsy/features/show_task/presentation/widgets/floating_action_button/new_task_fab.dart';
-import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
+import 'package:kipsy/core/widget/custom_button.dart';
 
 class AddTask extends StatelessWidget {
   ListesOfHouseEntity liste;

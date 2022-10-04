@@ -9,7 +9,7 @@ import 'package:kipsy/features/add_house/presentation/model/house_toast_model.da
 import 'package:kipsy/features/add_task/presentation/widgets/custom_text_field.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/page_header.dart';
 import 'package:kipsy/features/add_task/presentation/widgets/swipe_line.dart';
-import 'package:kipsy/features/welcome/presentation/widgets/custom_button.dart';
+import 'package:kipsy/core/widget/custom_button.dart';
 
 class AddHouse extends StatelessWidget {
   const AddHouse({Key? key}) : super(key: key);
