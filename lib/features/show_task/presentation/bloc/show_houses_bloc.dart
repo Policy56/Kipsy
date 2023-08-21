@@ -330,30 +330,28 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
               SizedBox(
                 width: 200,
                 height: 200,
-                child: QrImage(
-                  data: house.share_code ?? "",
+                child: QrImageView(
+                  data: house.shareCode ?? "",
                   version: QrVersions.auto,
                   backgroundColor: Colors.white,
 
                   //size: MediaQuery.of(context).size.width
                   size: 200.0,
                   errorStateBuilder: (cxt, err) {
-                    return Container(
-                      child: const Center(
-                        child: Text(
-                          "Uh oh! Something went wrong...",
-                          textAlign: TextAlign.center,
-                        ),
+                    return const Center(
+                      child: Text(
+                        "Uh oh! Something went wrong...",
+                        textAlign: TextAlign.center,
                       ),
                     );
                   },
                 ),
               ),
               InkWell(
-                child: Text(house.share_code ?? ""),
+                child: Text(house.shareCode ?? ""),
                 onLongPress: () async {
                   await Clipboard.setData(
-                      ClipboardData(text: house.share_code));
+                      ClipboardData(text: house.shareCode ?? ""));
                   showToast(context, HouseToastModel.fullyCopiedToClipboard);
                 },
               ),
@@ -365,7 +363,8 @@ class ShowHousesBloc extends Cubit<ShowHouseState> {
               color: ColorManager.lightGrey,
               width: MediaQuery.of(context).size.width / 3,
               onTap: () async {
-                await Clipboard.setData(ClipboardData(text: house.share_code));
+                await Clipboard.setData(
+                    ClipboardData(text: house.shareCode ?? ""));
                 showToast(context, HouseToastModel.fullyCopiedToClipboard);
               },
             )

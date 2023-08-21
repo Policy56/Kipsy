@@ -4,13 +4,13 @@ import 'package:kipsy/core/themes/colors_manager.dart';
 import 'package:kipsy/core/widget/custom_button.dart';
 
 class CustomDismissiblePaneWithDialog extends StatelessWidget {
-  CustomDismissiblePaneWithDialog(
+  const CustomDismissiblePaneWithDialog(
       {Key? key, required this.onDismissedFct, required this.itemToDelete})
       : super(key: key);
 
-  Function() onDismissedFct;
+  final Function() onDismissedFct;
 
-  String itemToDelete;
+  final String itemToDelete;
 
   @override
   Widget build(BuildContext context) {

@@ -29,7 +29,7 @@ class ShowHouseLocalDataSourceImpl implements ShowHouseLocalDataSource {
   @override
   Future<HouseEntity> updateHouse(HouseEntity house) async {
     HouseModel houseModel = HouseModel(
-        id: house.id, titre: house.titre, share_code: house.share_code);
+        id: house.id, titre: house.titre, shareCode: house.shareCode);
     await _dbService.updateHouse(houseModel);
     return house;
   }

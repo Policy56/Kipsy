@@ -17,32 +17,33 @@ class WelcomeView extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Positioned(
-            child: Image.asset(
-              'assets/images/graph.png',
-              scale: 2,
-            ),
             top: -80,
             right: -0,
-          ),
-          Positioned(
             child: Image.asset(
               'assets/images/graph.png',
               scale: 2,
             ),
+          ),
+          Positioned(
             left: -120,
             top: screenHeight / 2,
-          ),
-          Positioned(
             child: Image.asset(
               'assets/images/graph.png',
               scale: 2,
             ),
+          ),
+          Positioned(
             right: -70,
             top: screenHeight - 200,
+            child: Image.asset(
+              'assets/images/graph.png',
+              scale: 2,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 22),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Stack(

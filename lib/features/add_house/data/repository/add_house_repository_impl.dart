@@ -15,7 +15,7 @@ class AddHouseRepositoryImpl implements AddHouseRepository {
     try {
       final houseParam = HouseModel(
         titre: houseEntity.titre,
-        share_code: houseEntity.share_code,
+        shareCode: houseEntity.shareCode,
         dateTime: DateTime.now(),
       );
       final houseModel = await localSource!.addHouse(houseParam);

@@ -58,11 +58,11 @@ class ModifyTask extends StatelessWidget {
 }
 
 class AddAndModifyTaskView extends StatefulWidget {
-  String listeId;
-  TaskOfListEntity? oldTask;
+  final String listeId;
+  final TaskOfListEntity? oldTask;
+  final AddOrModifyEnum typeOfUseCase;
 
-  AddOrModifyEnum typeOfUseCase;
-  AddAndModifyTaskView(
+  const AddAndModifyTaskView(
       {Key? key,
       required this.typeOfUseCase,
       required this.oldTask,
@@ -233,9 +233,9 @@ class _AddAndModifyTaskViewState extends State<AddAndModifyTaskView> {
 }
 
 class AddBtn extends StatelessWidget {
-  AddBtn({Key? key, required this.typeOfUseCase}) : super(key: key);
+  const AddBtn({Key? key, required this.typeOfUseCase}) : super(key: key);
 
-  AddOrModifyEnum typeOfUseCase;
+  final AddOrModifyEnum typeOfUseCase;
 
   @override
   Widget build(BuildContext context) {

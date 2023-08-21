@@ -114,7 +114,7 @@ class AddBtn extends StatelessWidget {
 }
 
 class QRBtn extends StatelessWidget {
-  TextEditingController titleController;
+  final TextEditingController titleController;
 
   QRBtn(this.titleController, {Key? key}) : super(key: key);
 
@@ -123,7 +123,7 @@ class QRBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AddExistingHouseBloc bloc = context.read<AddExistingHouseBloc>();
+    //AddExistingHouseBloc bloc = context.read<AddExistingHouseBloc>();
     return BlocConsumer<AddExistingHouseBloc, AddExistingHouseState>(
         listener: (BuildContext context, AddExistingHouseState state) {},
         builder: (BuildContext context, AddExistingHouseState state) {

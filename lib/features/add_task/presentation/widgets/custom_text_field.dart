@@ -36,7 +36,7 @@ class CustomTextField extends StatelessWidget {
             children: [
               Text(
                 title ?? '',
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: ThemeManager.isDark(context)
                         ? ColorManager.lightGrey
                         : ColorManager.blue,

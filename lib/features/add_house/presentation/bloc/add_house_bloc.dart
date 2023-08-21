@@ -20,7 +20,7 @@ class AddHouseBloc extends Cubit<AddHouseState> {
 
   HouseModel get _house => HouseModel(
         titre: titleController.text,
-        share_code: generateRandomString(
+        shareCode: generateRandomString(
             15), //generation ici d'un random share Code de 15 lettres
         dateTime: DateTime.now(),
       );

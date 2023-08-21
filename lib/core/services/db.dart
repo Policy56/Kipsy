@@ -38,7 +38,7 @@ class DbService {
     DocumentReference<Map<String, dynamic>> ref =
         await FirebaseFirestore.instance.collection("house").add({
       "titre": house.titre,
-      "share_code": house.share_code,
+      "shareCode": house.shareCode,
       "dateTime": house.dateTime,
     });
     return ref.id;
@@ -84,13 +84,13 @@ class DbService {
       QuerySnapshot<Map<String, dynamic>> houseGet = await FirebaseFirestore
           .instance
           .collection('house')
-          .where('share_code', whereIn: savedItems)
+          .where('shareCode', whereIn: savedItems)
           .get();
       listHouse = houseGet.docs
           .map((doc) => HouseModel(
                 id: doc.id,
                 titre: doc.data()["titre"] ?? '',
-                share_code: doc.data()["share_code"] ?? '',
+                shareCode: doc.data()["shareCode"] ?? '',
                 dateTime: doc.data()["dateTime"] != null &&
                         doc.data()["dateTime"] is Timestamp
                     ? (doc.data()["dateTime"] as Timestamp).toDate()
@@ -187,7 +187,6 @@ class DbService {
   ///
 
   Future<void> deleteHouse(HouseEntity houseEntity) async {
-    List<HouseModel>? listHouse;
     final prefs = await SharedPreferences.getInstance();
     //await prefs.setStringList('items', <String>['Earth', 'Moon', 'Sun']);
 
@@ -196,7 +195,7 @@ class DbService {
     savedItems ??= [];
 
     if (savedItems.isNotEmpty) {
-      savedItems.removeWhere((element) => element == houseEntity.share_code);
+      savedItems.removeWhere((element) => element == houseEntity.shareCode);
     }
     savedItems;
     await prefs.setStringList('house', savedItems);

@@ -22,7 +22,7 @@ class AddHousesLocalDataSourceImpl implements AddHousesLocalDataSource {
       List<String>? savedItems = prefs.getStringList('house');
       savedItems ??= [];
 
-      savedItems.add(house.share_code!);
+      savedItems.add(house.shareCode!);
       await prefs.setStringList('house', savedItems);
 
       return house;

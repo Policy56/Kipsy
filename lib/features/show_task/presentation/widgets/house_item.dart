@@ -83,7 +83,7 @@ class HouseItem extends StatelessWidget {
                           fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                     Text(
-                      house.share_code ?? "",
+                      house.shareCode ?? "",
                       style: const TextStyle(color: Colors.grey),
                     ),
                     /* Text(

@@ -73,7 +73,7 @@ class MostVisitedHouseItem extends StatelessWidget {
                                     fontWeight: FontWeight.w700),
                               ),
                               Text(
-                                house.share_code ?? '',
+                                house.shareCode ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
